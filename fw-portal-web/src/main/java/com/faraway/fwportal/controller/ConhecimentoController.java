@@ -1,21 +1,14 @@
 package com.faraway.fwportal.controller;
 
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.faraway.fwportal.dto.ConhecimentoDto;
-import com.faraway.fwportal.exception.ObjectNotFoundException;
-import com.faraway.fwportal.model.Conhecimento;
-import com.faraway.fwportal.service.ConhecimentoCrdService;
 import com.faraway.fwportal.service.conhecimento.ConhecimentoControllerService;
 
 import io.swagger.annotations.ApiOperation;

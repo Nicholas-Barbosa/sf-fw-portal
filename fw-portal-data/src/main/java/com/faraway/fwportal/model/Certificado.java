@@ -19,7 +19,6 @@ import javax.persistence.Enumerated;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.springframework.context.annotation.Profile;
 
 @Entity
 public final class Certificado extends BaseEntity {
