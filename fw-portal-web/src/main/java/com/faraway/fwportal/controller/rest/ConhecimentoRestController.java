@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.faraway.fwportal.dto.ConhecimentoDto;
 import com.faraway.fwportal.exception.ObjectNotFoundException;
@@ -44,11 +45,14 @@ public class ConhecimentoRestController {
 			@ApiParam(name = "chave", type = "String", value = "This parameter will be used to filter objects by the key, in an operations pipeline", required = true) @PathVariable("chave") String chave) {
 		Optional<Conhecimento> conhecimentoEntity = conhecimentoCrudService.findByChave(chave);
 
-		ConhecimentoDto responseDto = new ConhecimentoDto(conhecimentoEntity.orElseThrow(ObjectNotFoundException::new));
+		ConhecimentoDto responseDto = new ConhecimentoDto(
+				conhecimentoEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+						"Object not found on Pipeline!", new ObjectNotFoundException())));
+
 		return new ResponseEntity<ConhecimentoDto>(responseDto, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Return an object of conhecimento, finding by: 'nota chave 44 digits'")
+	@ApiOperation(value = "Return a Collection of conhecimento objects, finding by: 'nota chave 44 digits'")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK,Found!"),
 			@ApiResponse(code = 403, message = "You are not allowed to access it!"),
 			@ApiResponse(code = 500, message = "Internal exception!"), })
@@ -61,6 +65,22 @@ public class ConhecimentoRestController {
 			return new ResponseEntity<>(conhecimentos.stream().map(ConhecimentoDto::new).collect(Collectors.toSet()),
 					HttpStatus.OK);
 
-		throw new ObjectNotFoundException();
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection for objects not found on Pipeline!",
+				new ObjectNotFoundException());
+	}
+
+	@ApiOperation(value = "Return a Collection of conhecimento objects that have been issued in the last three months ")
+	@GetMapping(produces =  MediaType.APPLICATION_JSON_VALUE, value = { "/findAll",
+			"/lastThreeMonths" })
+	public ResponseEntity<Set<ConhecimentoDto>> findAll() {
+
+		Set<Conhecimento> conhecimentos = conhecimentoCrudService.findAllLast3Months();
+
+		if (conhecimentos.size() > 0)
+			return new ResponseEntity<>(conhecimentos.stream().map(ConhecimentoDto::new).collect(Collectors.toSet()),
+					HttpStatus.OK);
+
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection for objects not found on Pipeline!",
+				new ObjectNotFoundException());
 	}
 }

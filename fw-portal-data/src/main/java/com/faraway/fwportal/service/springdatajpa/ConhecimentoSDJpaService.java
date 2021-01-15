@@ -1,5 +1,9 @@
 package com.faraway.fwportal.service.springdatajpa;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -100,6 +104,15 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 	public Set<Conhecimento> findByNota(String chaveNota) {
 		log.info("Searching conhecimento by nota...");
 		return conhecimentoRepository.findByNotasChave(chaveNota);
+	}
+
+	@Override
+	public Set<Conhecimento> findAllLast3Months() {
+		// TODO Auto-generated method stub
+		LocalDate now = LocalDate.now();
+		LocalDate begin = now.withDayOfMonth(1).minusMonths(3);
+		LocalDate end = now.withDayOfMonth(1);
+		return conhecimentoRepository.findByEmissaoBetween(begin, end);
 	}
 
 }

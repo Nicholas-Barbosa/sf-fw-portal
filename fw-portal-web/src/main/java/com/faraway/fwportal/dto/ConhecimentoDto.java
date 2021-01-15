@@ -51,6 +51,10 @@ public class ConhecimentoDto {
 
 	private Set<NotaDto> notas;
 
+	public ConhecimentoDto() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public ConhecimentoDto(Conhecimento conhecimento) {
 		super();
 		this.chave = conhecimento.getChave();

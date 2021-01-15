@@ -10,4 +10,6 @@ public interface ConhecimentoCrdService extends CrudService<Conhecimento, Long> 
 	Optional<Conhecimento> findByChave(String chave);
 
 	Set<Conhecimento> findByNota(String chaveNota);
+
+	Set<Conhecimento> findAllLast3Months();
 }
