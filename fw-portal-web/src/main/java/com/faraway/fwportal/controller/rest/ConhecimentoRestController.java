@@ -70,8 +70,7 @@ public class ConhecimentoRestController {
 	}
 
 	@ApiOperation(value = "Return a Collection of conhecimento objects that have been issued in the last three months ")
-	@GetMapping(produces =  MediaType.APPLICATION_JSON_VALUE, value = { "/findAll",
-			"/lastThreeMonths" })
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = { "/findAll", "/lastThreeMonths" })
 	public ResponseEntity<Set<ConhecimentoDto>> findAll() {
 
 		Set<Conhecimento> conhecimentos = conhecimentoCrudService.findAllLast3Months();

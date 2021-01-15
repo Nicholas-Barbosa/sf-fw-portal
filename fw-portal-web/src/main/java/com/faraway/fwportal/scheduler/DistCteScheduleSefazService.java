@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.faraway.fwportal.service.ConhecimentoCrdService;
 import com.faraway.fwportal.service.SefazService;
 
 @Component
@@ -19,12 +18,9 @@ public class DistCteScheduleSefazService implements ScheduleSefazService {
 
 	private final SefazService distCteService;
 
-	private final ConhecimentoCrdService conhecimentoCrudService;
-
-	public DistCteScheduleSefazService(SefazService distCteService, ConhecimentoCrdService conhecimentoCrudService) {
+	public DistCteScheduleSefazService(SefazService distCteService) {
 		super();
 		this.distCteService = distCteService;
-		this.conhecimentoCrudService = conhecimentoCrudService;
 	}
 
 	/*
@@ -37,7 +33,7 @@ public class DistCteScheduleSefazService implements ScheduleSefazService {
 	public void executeTask() {
 		log.info("Iniciando execucoes: " + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM)
 				.format(LocalDateTime.now()));
-		// distCteService.findAndSave();
+		//distCteService.findAndSave();
 	}
 
 }

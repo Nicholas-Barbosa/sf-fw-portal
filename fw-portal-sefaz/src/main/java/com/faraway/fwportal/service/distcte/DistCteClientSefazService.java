@@ -43,6 +43,7 @@ public class DistCteClientSefazService implements ClientSefazService {
 
 		if (contador <= 5) {
 			contador++;
+			System.out.println("certificado " + certificado);
 			try (CloseableHttpClient httpclient = certificado.getHttpClient()) {
 
 				String cnpj = certificado.getCnpj();

@@ -19,6 +19,8 @@ import javax.persistence.Enumerated;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 
 @Entity
 public final class Certificado extends BaseEntity {
@@ -61,7 +63,11 @@ public final class Certificado extends BaseEntity {
 		return porta;
 	}
 
-	private final class Ssl {
+	@PropertySource({ "classpath:jks.properties" })
+	private final class Ssl{
+
+		@Value("${jks.path}")
+		private String jksPath;
 
 		private final Path keyStorePath = Path
 				.of("C:\\Users\\Nicholas Henrique\\Documents\\keystore\\server-keystore.jks");
@@ -85,7 +91,8 @@ public final class Certificado extends BaseEntity {
 
 				KeyStore clientStore = KeyStore.getInstance("PKCS12");
 				clientStore.load(bufferedCertifi, Certificado.this.senha);
-
+				
+				
 				KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 				kmf.init(clientStore, "M@ster!@#".toCharArray());
 
