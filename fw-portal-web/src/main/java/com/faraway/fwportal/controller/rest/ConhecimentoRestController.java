@@ -4,6 +4,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +23,13 @@ import com.faraway.fwportal.model.Conhecimento;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "ConhecimentoRestController")
 @RestController
@@ -69,15 +76,24 @@ public class ConhecimentoRestController {
 				new ObjectNotFoundException());
 	}
 
+	
+
+	@Cacheable(value = "findAll")
 	@ApiOperation(value = "Return a Collection of conhecimento objects that have been issued in the last three months ")
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = { "/findAll", "/lastThreeMonths" })
-	public ResponseEntity<Set<ConhecimentoDto>> findAll() {
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/findAll")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
+			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page.", defaultValue = "10"),
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "
+					+ "Default sort order is ascending. " + "Multiple sort criteria are supported.") })
+	public ResponseEntity<Page<ConhecimentoDto>> findAllPage(
+			@ApiIgnore("Ignored because swagger ui shows the wrong params, "
+					+ "instead they are explained in the implicit params") @PageableDefault(sort = "emissao", page = 0, size = 10) Pageable currentPage) {
 
-		Set<Conhecimento> conhecimentos = conhecimentoCrudService.findAllLast3Months();
-
-		if (conhecimentos.size() > 0)
-			return new ResponseEntity<>(conhecimentos.stream().map(ConhecimentoDto::new).collect(Collectors.toSet()),
-					HttpStatus.OK);
+		Page<Conhecimento> conhecimentos = conhecimentoCrudService.findAllPage(currentPage);
+		if (conhecimentos.getSize() > 0) {
+			return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new), HttpStatus.OK);
+		}
 
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection for objects not found on Pipeline!",
 				new ObjectNotFoundException());

@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import com.faraway.fwportal.model.Conhecimento;
@@ -15,7 +17,6 @@ public interface ConhecimentoRepository extends CrudRepository<Conhecimento, Lon
 
 	Set<Conhecimento> findByNotasChave(String chaveNota);
 
-	// @Query("FROM Conhecimento c where c.emissao between ?1 and ?2")
 	@Cacheable("findByEmissaoBetween")
-	Set<Conhecimento> findByEmissaoBetween(LocalDate dateBegin, LocalDate dateEnd);
+	Page<Conhecimento> findByEmissaoBetween(LocalDate dateBegin, LocalDate dateEnd, Pageable page);
 }

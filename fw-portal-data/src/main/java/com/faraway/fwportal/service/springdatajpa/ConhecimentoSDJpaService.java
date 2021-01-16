@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -106,16 +108,17 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 		return conhecimentoRepository.findByNotasChave(chaveNota);
 	}
 
+	
+
 	@Override
-	public Set<Conhecimento> findAllLast3Months() {
+	public Page<Conhecimento> findAllPage(Pageable page) {
 		// TODO Auto-generated method stub
 		Locale.setDefault(new Locale("pt", "BR"));
 		LocalDate now = LocalDate.now();
 		LocalDate begin = now.withDayOfMonth(1).minusMonths(3);
-
 		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
 		log.info("Finding conhecimentos between " + begin.format(formatter) + " - " + now.format(formatter) + "...");
-		return conhecimentoRepository.findByEmissaoBetween(begin, now);
+		return conhecimentoRepository.findByEmissaoBetween(begin, now, page);
 	}
 
 }

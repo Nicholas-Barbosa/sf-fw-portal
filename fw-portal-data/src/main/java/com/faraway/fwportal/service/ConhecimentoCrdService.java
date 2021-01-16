@@ -3,6 +3,9 @@ package com.faraway.fwportal.service;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.faraway.fwportal.model.Conhecimento;
 
 public interface ConhecimentoCrdService extends CrudService<Conhecimento, Long> {
@@ -11,5 +14,6 @@ public interface ConhecimentoCrdService extends CrudService<Conhecimento, Long> 
 
 	Set<Conhecimento> findByNota(String chaveNota);
 
-	Set<Conhecimento> findAllLast3Months();
+
+	Page<Conhecimento> findAllPage(Pageable page);
 }
