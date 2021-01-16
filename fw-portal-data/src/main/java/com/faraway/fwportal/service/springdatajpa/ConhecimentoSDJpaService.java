@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -108,12 +107,9 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 		return conhecimentoRepository.findByNotasChave(chaveNota);
 	}
 
-	
-
 	@Override
 	public Page<Conhecimento> findAllPage(Pageable page) {
 		// TODO Auto-generated method stub
-		Locale.setDefault(new Locale("pt", "BR"));
 		LocalDate now = LocalDate.now();
 		LocalDate begin = now.withDayOfMonth(1).minusMonths(3);
 		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.faraway.fwportal.service.SefazService;
 
 @Component
-public class DistCteScheduleSefazService implements ScheduleSefazService {
+public class DistCteScheduleSefazService implements ScheduleService {
 
 	private static final Logger log = LoggerFactory.getLogger(DistCteScheduleSefazService.class);
 
@@ -31,9 +31,9 @@ public class DistCteScheduleSefazService implements ScheduleSefazService {
 	@Scheduled(fixedDelay = 60000)
 	@Override
 	public void executeTask() {
-		log.info("Iniciando execucoes: " + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM)
-				.format(LocalDateTime.now()));
-		//distCteService.findAndSave();
+		log.info("Thread started to read conhecimentos! " + DateTimeFormatter
+				.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).format(LocalDateTime.now()));
+		// distCteService.findAndSave();
 	}
 
 }
