@@ -11,13 +11,13 @@ import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConhecimentoFindAllCacheManagerService implements CacheManagerService {
+public class CacheManagerServiceImpl implements CacheManagerService {
 
 	private final CacheManager cacheManager;
 
-	private static final Logger log = LoggerFactory.getLogger(ConhecimentoFindAllCacheManagerService.class);
+	private static final Logger log = LoggerFactory.getLogger(CacheManagerServiceImpl.class);
 
-	public ConhecimentoFindAllCacheManagerService(CacheManager cacheManager) {
+	public CacheManagerServiceImpl(CacheManager cacheManager) {
 		super();
 		this.cacheManager = cacheManager;
 	}
