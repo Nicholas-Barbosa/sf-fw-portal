@@ -33,7 +33,7 @@ public class ConhecimentoFindAllCacheManagerService implements CacheManagerServi
 		Locale.setDefault(new Locale("pt", "BR"));
 		DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL);
 
-		log.info("Cleaning cache " + cacheName + " at " + formater.format(LocalDateTime.now()));
+		log.info("Cleaning cache " + cacheName + " at " + formater.format(LocalDateTime.now()) + "!");
 		cacheManager.getCache(cacheName).clear();
 
 	}
