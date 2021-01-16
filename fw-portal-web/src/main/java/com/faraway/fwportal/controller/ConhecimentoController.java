@@ -1,4 +1,4 @@
-package com.faraway.fwportal.controller.rest;
+package com.faraway.fwportal.controller;
 
 import java.util.Optional;
 import java.util.Set;
@@ -34,11 +34,11 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(value = "ConhecimentoRestController")
 @RestController
 @RequestMapping("/conhecimentos")
-public class ConhecimentoRestController {
+public class ConhecimentoController {
 
 	private final ConhecimentoCrdService conhecimentoCrudService;
 
-	public ConhecimentoRestController(ConhecimentoCrdService conhecimentoCrudService) {
+	public ConhecimentoController(ConhecimentoCrdService conhecimentoCrudService) {
 		super();
 		this.conhecimentoCrudService = conhecimentoCrudService;
 	}
@@ -75,8 +75,6 @@ public class ConhecimentoRestController {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection for objects not found on Pipeline!",
 				new ObjectNotFoundException());
 	}
-
-	
 
 	@Cacheable(value = "findAll")
 	@ApiOperation(value = "Return a Collection of conhecimento objects that have been issued in the last three months ")
