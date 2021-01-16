@@ -3,6 +3,8 @@ package com.faraway.fwportal.controller;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,5 +34,12 @@ public class CacheController {
 		DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.FULL);
 		String response = "Cache " + cacheName + " cleaned successfully at " + ZonedDateTime.now().format(formater);
 		return new ResponseEntity<CacheDto>(new CacheDto(response), HttpStatus.OK);
+	}
+
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<CacheDto>> caches() {
+		Collection<CacheDto> caches = cacheManagerService.caches().parallelStream().flatMap(CacheDto::toDtoCollection)
+				.collect(CopyOnWriteArraySet::new, Collection::add, Collection::addAll);
+		return new ResponseEntity<Collection<CacheDto>>(caches, HttpStatus.OK);
 	}
 }

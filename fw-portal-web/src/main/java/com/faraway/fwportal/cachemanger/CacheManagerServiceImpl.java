@@ -3,6 +3,7 @@ package com.faraway.fwportal.cachemanger;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Collection;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -49,6 +50,12 @@ public class CacheManagerServiceImpl implements CacheManagerService {
 		log.info("Cache: " + cacheName + " at " + formater.format(ZonedDateTime.now()) + " does not exist!");
 		throw new CacheNotFoundException("Cache " + cacheName + " does not exists!");
 
+	}
+
+	@Override
+	public Collection<String> caches() {
+		// TODO Auto-generated method stub
+		return cacheManager.getCacheNames();
 	}
 
 }
