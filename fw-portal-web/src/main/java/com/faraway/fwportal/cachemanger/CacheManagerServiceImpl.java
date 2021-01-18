@@ -12,7 +12,7 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
-import com.faraway.fwportal.exception.CacheNotFoundException;
+import com.faraway.fwportal.exception.ObjectNotFoundException;
 
 @Component
 public class CacheManagerServiceImpl implements CacheManagerService {
@@ -33,7 +33,7 @@ public class CacheManagerServiceImpl implements CacheManagerService {
 	}
 
 	@Override
-	public void evictAllCacheValues(String cacheName) {
+	public void evictAllCacheValues(String cacheName) throws ObjectNotFoundException {
 		Locale.setDefault(new Locale("pt", "BR"));
 		DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.FULL);
 
@@ -48,7 +48,7 @@ public class CacheManagerServiceImpl implements CacheManagerService {
 			return;
 		}
 		log.info("Cache: " + cacheName + " at " + formater.format(ZonedDateTime.now()) + " does not exist!");
-		throw new CacheNotFoundException("Cache " + cacheName + " does not exists!");
+		throw new ObjectNotFoundException("Cache " + cacheName + " does not exists!");
 
 	}
 

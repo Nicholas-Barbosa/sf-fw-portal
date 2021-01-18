@@ -1,5 +1,6 @@
 package com.faraway.fwportal.controller;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.faraway.fwportal.dto.ConhecimentoDto;
 import com.faraway.fwportal.exception.ObjectNotFoundException;
@@ -50,12 +52,21 @@ public class ConhecimentoController {
 	@GetMapping(value = "/findByChave/{chave}", produces = MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<ConhecimentoDto> findByChave(
 			@ApiParam(name = "chave", type = "String", value = "This parameter will be used to filter objects by the key, in an operations pipeline", required = true) @PathVariable("chave") String chave) {
-		Optional<Conhecimento> conhecimentoEntity = conhecimentoCrudService.findByChave(chave);
 
-		ConhecimentoDto responseDto = new ConhecimentoDto(conhecimentoEntity.orElseThrow(
-				() -> new ObjectNotFoundException("Object with id #" + chave + " not found on Pipeline!")));
+		try {
+			Optional<Conhecimento> conhecimentoEntity = conhecimentoCrudService.findByChave(chave);
+			return new ResponseEntity<>(new ConhecimentoDto(conhecimentoEntity.get()), HttpStatus.OK);
+		} catch (Exception e) {
+			try {
+				NoSuchElementException elementExcpetion = (NoSuchElementException) e;
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, elementExcpetion.getMessage());
 
-		return new ResponseEntity<ConhecimentoDto>(responseDto, HttpStatus.OK);
+			} catch (ClassCastException iE) {
+				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+			}
+
+		}
+
 	}
 
 	@ApiOperation(value = "Return a Collection of conhecimento objects, finding by: 'nota chave 44 digits'")
@@ -66,14 +77,20 @@ public class ConhecimentoController {
 	public ResponseEntity<Set<ConhecimentoDto>> findByNota(
 			@ApiParam(name = "chave", type = "String", value = "This parameter will be used to filter objects by the invoice key, in an operations pipeline", required = true) @PathVariable("chave") String chave) {
 
-		Set<Conhecimento> conhecimentos = conhecimentoCrudService.findByNota(chave);
-		if (conhecimentos.size() > 0)
+		try {
+
+			Set<Conhecimento> conhecimentos = conhecimentoCrudService.findByNota(chave);
+
 			return new ResponseEntity<>(
 					conhecimentos.parallelStream().map(ConhecimentoDto::new).collect(Collectors.toSet()),
 					HttpStatus.OK);
 
-		throw new ObjectNotFoundException(
-				"Collection for objects that contains ID #" + chave + " not found on Pipeline!");
+		} catch (ObjectNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+		} catch (Exception e) {
+
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+		}
 
 	}
 
@@ -91,10 +108,8 @@ public class ConhecimentoController {
 					+ "instead they are explained in the implicit params") @PageableDefault(sort = "emissao", page = 0, size = 10, direction = Sort.Direction.DESC) Pageable currentPage) {
 
 		Page<Conhecimento> conhecimentos = conhecimentoCrudService.findAllPage(currentPage);
-		if (conhecimentos.getSize() > 0) {
-			return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new), HttpStatus.OK);
-		}
 
-		throw new ObjectNotFoundException("Collection for objects not found on Pipeline!");
+		return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new), HttpStatus.OK);
+
 	}
 }

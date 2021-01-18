@@ -28,7 +28,7 @@ public class DistCteScheduleSefazService implements ScheduleService {
 	 * apos um initial delay e so criar a proxima task, quando a ultima terminar e
 	 * atingir o delay dado.
 	 */
-	@Scheduled(fixedDelay = 60000)
+	@Scheduled(fixedDelay = 600000)
 	@Override
 	public void executeTask() {
 		log.info("Thread started to read conhecimentos! " + DateTimeFormatter

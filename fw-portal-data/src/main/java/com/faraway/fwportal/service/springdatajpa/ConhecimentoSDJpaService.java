@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.faraway.fwportal.exception.ObjectNotFoundException;
 import com.faraway.fwportal.model.Conhecimento;
 import com.faraway.fwportal.repositories.ConhecimentoRepository;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
@@ -85,26 +87,28 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 
 	@Cacheable("conhecimentoFindByChave")
 	@Override
-	public Optional<Conhecimento> findByChave(String chave) {
+	public Optional<Conhecimento> findByChave(String chave) throws ObjectNotFoundException {
 		log.info("Searching conhecimento by key...");
 		if (map.isEmpty() || !existsKeyOnMap(chave)) {
 			return findAndPutOnMap(chave);
+
 		}
+		log.info("Conhecimento found!");
 		return Optional.of(map.get(chave));
 
 	}
 
-	private Optional<Conhecimento> findAndPutOnMap(String chave) {
-		Optional<Conhecimento> response = conhecimentoRepository.findByChave(chave);
-		response.ifPresent(c -> map.put(c.getChave(), c));
-		return response;
-	}
-
 	@Cacheable("conhecimentoFindByNotasChave")
 	@Override
-	public Set<Conhecimento> findByNota(String chaveNota) {
+	public Set<Conhecimento> findByNota(String chaveNota) throws ObjectNotFoundException {
 		log.info("Searching conhecimento by nota...");
-		return conhecimentoRepository.findByNotasChave(chaveNota);
+		Set<Conhecimento> conhecimentos = conhecimentoRepository.findByNotasChave(chaveNota);
+		if (!conhecimentos.isEmpty()) {
+			log.info("Conhecimento by nota found.");
+			return conhecimentoRepository.findByNotasChave(chaveNota);
+		}
+		log.info("Conhecimento by nota not found!");
+		throw new ObjectNotFoundException("Object that contains invoice key # " + chaveNota + " not found!");
 	}
 
 	@Override
@@ -117,4 +121,15 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 		return conhecimentoRepository.findByEmissaoBetween(begin, now, page);
 	}
 
+	private Optional<Conhecimento> findAndPutOnMap(String chave) {
+		Optional<Conhecimento> response = conhecimentoRepository.findByChave(chave);
+		response.ifPresentOrElse(c -> map.put(c.getChave(), c),
+				() -> this.throwObjectException("Object with key #" + chave + " not found on hash table!"));
+		log.info("Conhecimento found!");
+		return response;
+	}
+
+	private void throwObjectException(String msg) {
+		throw new NoSuchElementException(msg);
+	}
 }
