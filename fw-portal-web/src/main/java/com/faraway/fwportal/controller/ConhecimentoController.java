@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.faraway.fwportal.dto.ConhecimentoDto;
 import com.faraway.fwportal.exception.ObjectNotFoundException;
@@ -52,9 +52,8 @@ public class ConhecimentoController {
 			@ApiParam(name = "chave", type = "String", value = "This parameter will be used to filter objects by the key, in an operations pipeline", required = true) @PathVariable("chave") String chave) {
 		Optional<Conhecimento> conhecimentoEntity = conhecimentoCrudService.findByChave(chave);
 
-		ConhecimentoDto responseDto = new ConhecimentoDto(
-				conhecimentoEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-						"Object not found on Pipeline!", new ObjectNotFoundException())));
+		ConhecimentoDto responseDto = new ConhecimentoDto(conhecimentoEntity.orElseThrow(
+				() -> new ObjectNotFoundException("Object with id #" + chave + " not found on Pipeline!")));
 
 		return new ResponseEntity<ConhecimentoDto>(responseDto, HttpStatus.OK);
 	}
@@ -69,31 +68,33 @@ public class ConhecimentoController {
 
 		Set<Conhecimento> conhecimentos = conhecimentoCrudService.findByNota(chave);
 		if (conhecimentos.size() > 0)
-			return new ResponseEntity<>(conhecimentos.stream().map(ConhecimentoDto::new).collect(Collectors.toSet()),
+			return new ResponseEntity<>(
+					conhecimentos.parallelStream().map(ConhecimentoDto::new).collect(Collectors.toSet()),
 					HttpStatus.OK);
 
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection for objects not found on Pipeline!",
-				new ObjectNotFoundException());
+		throw new ObjectNotFoundException(
+				"Collection for objects that contains ID #" + chave + " not found on Pipeline!");
+
 	}
 
 	@Cacheable(value = "findAll")
 	@ApiOperation(value = "Return a Collection of conhecimento objects that have been issued in the last three months ")
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/findAll")
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N). Index starts at position 0! ", defaultValue = "0"),
 			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page.", defaultValue = "10"),
-			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Sorting criteria in the format: property(,asc|desc). "
-					+ "Default sort order is ascending. " + "Multiple sort criteria are supported.") })
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Field and Order that will be used to sort the records. "
+					+ "Default is sort by emissao(date) in DESCENDING order. "
+					+ "Multiple sort criteria are supported.") })
 	public ResponseEntity<Page<ConhecimentoDto>> findAllPage(
 			@ApiIgnore("Ignored because swagger ui shows the wrong params, "
-					+ "instead they are explained in the implicit params") @PageableDefault(sort = "emissao", page = 0, size = 10) Pageable currentPage) {
+					+ "instead they are explained in the implicit params") @PageableDefault(sort = "emissao", page = 0, size = 10, direction = Sort.Direction.DESC) Pageable currentPage) {
 
 		Page<Conhecimento> conhecimentos = conhecimentoCrudService.findAllPage(currentPage);
 		if (conhecimentos.getSize() > 0) {
 			return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new), HttpStatus.OK);
 		}
 
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Collection for objects not found on Pipeline!",
-				new ObjectNotFoundException());
+		throw new ObjectNotFoundException("Collection for objects not found on Pipeline!");
 	}
 }

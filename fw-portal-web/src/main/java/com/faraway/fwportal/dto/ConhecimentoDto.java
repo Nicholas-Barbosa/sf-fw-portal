@@ -16,12 +16,14 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @JsonRootName("response")
-@JsonPropertyOrder({ "chave", "numero", "serie", "emissao", "total", "taxas", "imposto", "emitente", "remetente",
+@JsonPropertyOrder({ "numero", "serie", "chave", "emissao", "total", "taxas", "imposto", "emitente", "remetente",
 		"destinatario", "origem", "destino", "carga", "notas" })
 @JsonInclude(Include.NON_NULL)
 public class ConhecimentoDto {
 
-	@JacksonXmlProperty(isAttribute = true, localName = "chaveCte")
+	@JacksonXmlProperty(isAttribute = true, localName = "chave")
+	private String attribute;
+
 	@JsonProperty("chaveCte")
 	private String chave;
 	private String numero;
@@ -57,6 +59,7 @@ public class ConhecimentoDto {
 
 	public ConhecimentoDto(Conhecimento conhecimento) {
 		super();
+		this.attribute = conhecimento.getChave();
 		this.chave = conhecimento.getChave();
 		this.numero = conhecimento.getNumero();
 		this.serie = conhecimento.getSerie();
@@ -73,6 +76,10 @@ public class ConhecimentoDto {
 		this.carga = new CargaDto(conhecimento.getCarga());
 		this.notas = conhecimento.getNotas().parallelStream().map(NotaDto::new).collect(ConcurrentSkipListSet::new,
 				Set::add, Set::addAll);
+	}
+
+	public String getAttribute() {
+		return attribute;
 	}
 
 	public String getChave() {
