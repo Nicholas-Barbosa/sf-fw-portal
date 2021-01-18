@@ -130,6 +130,7 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 	}
 
 	private void throwObjectException(String msg) {
+		log.info("Conhecimento by key not found!");
 		throw new NoSuchElementException(msg);
 	}
 }
