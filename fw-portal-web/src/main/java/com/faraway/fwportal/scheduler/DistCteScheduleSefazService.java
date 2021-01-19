@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.service.SefazService;
+import com.faraway.fwportal.time.TimeHandler;
 
 @Component
 public class DistCteScheduleSefazService implements ScheduleService {
@@ -32,7 +33,7 @@ public class DistCteScheduleSefazService implements ScheduleService {
 	@Override
 	public void executeTask() {
 		log.info("Thread started to read conhecimentos! " + DateTimeFormatter
-				.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).format(LocalDateTime.now()));
+				.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).format(TimeHandler.getLocalDateTime()));
 		// distCteService.findAndSave();
 	}
 

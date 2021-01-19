@@ -23,6 +23,7 @@ import com.faraway.fwportal.exception.ObjectNotFoundException;
 import com.faraway.fwportal.model.Conhecimento;
 import com.faraway.fwportal.repositories.ConhecimentoRepository;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
+import com.faraway.fwportal.time.TimeHandler;
 
 @Service
 @Transactional
@@ -114,7 +115,7 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 	@Override
 	public Page<Conhecimento> findAllPage(Pageable page) {
 		// TODO Auto-generated method stub
-		LocalDate now = LocalDate.now();
+		LocalDate now = TimeHandler.getLocalDate();
 		LocalDate begin = now.withDayOfMonth(1).minusMonths(3);
 		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
 		log.info("Finding conhecimentos between " + begin.format(formatter) + " - " + now.format(formatter) + "...");
@@ -124,13 +125,24 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 	@Override
 	public Page<Conhecimento> findByEmitenteThreeMonths(String cnpj, Pageable page) {
 		// TODO Auto-generated method stub
-		LocalDate now = LocalDate.now();
+		LocalDate now = TimeHandler.getLocalDate();
 		LocalDate begin = now.withDayOfMonth(1).minusMonths(3);
 		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
 		log.info("Finding conhecimentos by emitente between " + begin.format(formatter) + " - " + now.format(formatter)
 				+ "...");
 
 		return conhecimentoRepository.findByEmissaoBetweenAndEmitenteCnpj(begin, now, cnpj, page);
+	}
+
+	@Override
+	public Page<Conhecimento> findByRemetenteThreeMonths(String cnpj, Pageable page) {
+		LocalDate now = TimeHandler.getLocalDate();
+		LocalDate begin = now.withDayOfMonth(1).minusMonths(3);
+		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
+		log.info("Finding conhecimentos by remetente between " + begin.format(formatter) + " - " + now.format(formatter)
+				+ "...");
+
+		return conhecimentoRepository.findByEmissaoBetweenAndRemetenteCnpj(begin, now, cnpj, page);
 	}
 
 	private Optional<Conhecimento> findAndPutOnMap(String chave) {

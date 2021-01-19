@@ -18,4 +18,6 @@ public interface ConhecimentoCrdService extends CrudService<Conhecimento, Long> 
 	Page<Conhecimento> findAllPage(Pageable page);
 
 	Page<Conhecimento> findByEmitenteThreeMonths(String cnpj, Pageable page);
+
+	Page<Conhecimento> findByRemetenteThreeMonths(String cnpj, Pageable page);
 }

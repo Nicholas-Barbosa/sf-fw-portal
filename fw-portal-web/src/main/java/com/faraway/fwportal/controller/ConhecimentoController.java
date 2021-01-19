@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -114,7 +113,8 @@ public class ConhecimentoController {
 
 		Page<Conhecimento> conhecimentos = conhecimentoCrudService.findAllPage(currentPage);
 
-		return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new), conhecimentos.getContent().size() > 0 ? HttpStatus.OK:HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new),
+				conhecimentos.getContent().size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 
 	}
 
@@ -136,6 +136,29 @@ public class ConhecimentoController {
 					+ "instead they are explained in the implicit params") @PageableDefault(sort = "emissao", page = 0, size = 10, direction = Sort.Direction.DESC) Pageable currentPage) {
 		System.out.println("cnpj " + cnpj);
 		Page<Conhecimento> conhecimentos = conhecimentoCrudService.findByEmitenteThreeMonths(cnpj, currentPage);
+
+		return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new),
+				conhecimentos.getContent().size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+	}
+
+	@Cacheable("findAllByRemetente")
+	@ApiOperation(value = "Return a Collection of conhecimento objects finding by remetente, that have been issued in the last three months.")
+	@GetMapping(value = "/findByRemetente/{cnpj}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK,Found!"),
+			@ApiResponse(code = 403, message = "You are not allowed to access it!"),
+			@ApiResponse(code = 500, message = "Internal exception!"),
+			@ApiResponse(code = 404, message = "Nothing Found or page with no elements!") })
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "page", dataType = "integer", paramType = "query", value = "Results page you want to retrieve (0..N). Index starts at position 0! ", defaultValue = "0"),
+			@ApiImplicitParam(name = "size", dataType = "integer", paramType = "query", value = "Number of records per page.", defaultValue = "10"),
+			@ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query", value = "Field and Order that will be used to sort the records. "
+					+ "Default is sort by emissao(date) in DESCENDING order. "
+					+ "Multiple sort criteria are supported.") })
+	public ResponseEntity<Page<ConhecimentoDto>> findByRemetente(@PathVariable("cnpj") String cnpj,
+			@ApiIgnore("Ignored because swagger ui shows the wrong params, "
+					+ "instead they are explained in the implicit params") @PageableDefault(sort = "emissao", page = 0, size = 10, direction = Sort.Direction.DESC) Pageable currentPage) {
+		System.out.println("cnpj " + cnpj);
+		Page<Conhecimento> conhecimentos = conhecimentoCrudService.findByRemetenteThreeMonths(cnpj, currentPage);
 
 		return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new),
 				conhecimentos.getContent().size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);

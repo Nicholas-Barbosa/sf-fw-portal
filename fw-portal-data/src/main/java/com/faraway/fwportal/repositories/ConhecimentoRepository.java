@@ -20,4 +20,7 @@ public interface ConhecimentoRepository extends CrudRepository<Conhecimento, Lon
 
 	Page<Conhecimento> findByEmissaoBetweenAndEmitenteCnpj(LocalDate dateBegin, LocalDate dateEnd, String cnpj,
 			Pageable page);
+
+	Page<Conhecimento> findByEmissaoBetweenAndRemetenteCnpj(LocalDate dateBegin, LocalDate dateEnd, String cnpj,
+			Pageable page);
 }

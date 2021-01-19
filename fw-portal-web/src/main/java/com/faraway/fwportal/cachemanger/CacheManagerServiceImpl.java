@@ -13,6 +13,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.exception.ObjectNotFoundException;
+import com.faraway.fwportal.time.TimeHandler;
 
 @Component
 public class CacheManagerServiceImpl implements CacheManagerService {
@@ -43,13 +44,13 @@ public class CacheManagerServiceImpl implements CacheManagerService {
 		boolean containsCache = cacheManager.getCacheNames().parallelStream().anyMatch(ch -> ch.equals(cacheName));
 
 		if (containsCache) {
-			log.info("Cleaning cache: " + cacheName + " at " + formater.format(ZonedDateTime.now()) + "...");
+			log.info("Cleaning cache: " + cacheName + " at " + formater.format(TimeHandler.getZonedDateTime()) + "...");
 			Cache cache = cacheManager.getCache(cacheName);
 			cache.clear();
 			log.info("Cache: " + cacheName + " at " + formater.format(ZonedDateTime.now()) + " cleaned successfully!");
 			return;
 		}
-		log.info("Cache: " + cacheName + " at " + formater.format(ZonedDateTime.now()) + " does not exist!");
+		log.info("Cache: " + cacheName + " at " + formater.format(TimeHandler.getZonedDateTime()) + " does not exist!");
 		throw new ObjectNotFoundException("Cache " + cacheName + " does not exists!");
 
 	}
@@ -62,7 +63,7 @@ public class CacheManagerServiceImpl implements CacheManagerService {
 
 	@Override
 	public void cleanAllCaches() {
-		log.info("Cleaning all caches" + " at " + formater.format(ZonedDateTime.now().minusHours(1)) + "...");
+		log.info("Cleaning all caches" + " at " + formater.format(TimeHandler.getZonedDateTime()) + "...");
 		cacheManager.getCacheNames().forEach(name -> cacheManager.getCache(name).clear());
 		log.info("All caches have been cleaned" + " at " + formater.format(ZonedDateTime.now().minusHours(1)) + "...");
 	}
