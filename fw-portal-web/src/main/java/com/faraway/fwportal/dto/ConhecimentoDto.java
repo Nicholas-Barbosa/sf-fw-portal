@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @JsonRootName("response")
@@ -43,8 +44,10 @@ public class ConhecimentoDto {
 	private CidadeDto origem;
 
 	private CidadeDto destino;
+//
 
-	@JsonProperty("camponentesPrest")
+	@JacksonXmlElementWrapper(localName = "componentesPrest")
+	@JsonProperty("componente")
 	private Set<TaxaConhecimentoDto> taxas;
 
 	private ImpostoDto imposto;

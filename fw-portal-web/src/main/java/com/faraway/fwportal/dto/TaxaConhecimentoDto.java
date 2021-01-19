@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TaxaConhecimentoDto implements Comparable<TaxaConhecimentoDto> {
 
-	@JsonProperty("componente")
+	@JsonProperty("nome")
 	private String taxa;
 
-	@JsonProperty("valorComponente")
+	@JsonProperty("valor")
 	private BigDecimal valor;
 
 	public TaxaConhecimentoDto(TaxaConhecimento taxa) {
