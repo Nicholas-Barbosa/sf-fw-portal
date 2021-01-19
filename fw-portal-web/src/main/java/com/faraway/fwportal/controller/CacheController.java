@@ -35,7 +35,8 @@ public class CacheController {
 		try {
 			cacheManagerService.evictAllCacheValues(cacheName);
 			DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.FULL);
-			String response = "Cache " + cacheName + " cleaned successfully at " + ZonedDateTime.now().format(formater);
+			String response = "Cache " + cacheName + " cleaned successfully at "
+					+ ZonedDateTime.now().minusHours(1).format(formater);
 			return new ResponseEntity<CacheDto>(new CacheDto(response), HttpStatus.OK);
 		} catch (ObjectNotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

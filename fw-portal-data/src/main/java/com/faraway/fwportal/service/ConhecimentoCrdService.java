@@ -16,4 +16,6 @@ public interface ConhecimentoCrdService extends CrudService<Conhecimento, Long> 
 	Set<Conhecimento> findByNota(String chaveNota) throws ObjectNotFoundException;
 
 	Page<Conhecimento> findAllPage(Pageable page);
+
+	Page<Conhecimento> findByEmitenteThreeMonths(String cnpj, Pageable page);
 }

@@ -25,11 +25,12 @@ public class CleanCacheSchedule implements ScheduleService {
 	@Scheduled(cron = "0 0 0 * * *")
 	public void executeTask() {
 		DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.FULL);
-		log.info("Thread started to clean cache! " + formater.format(ZonedDateTime.now()));
+		log.info("Thread started to clean caches! " + formater.format(ZonedDateTime.now()));
 		try {
-			cacheManagerService.evictAllCacheValues("findAll");
+			cacheManagerService.cleanAllCaches();
+
 		} catch (Exception e) {
-			log.info("Exception in thread while cleanning cache ", e);
+			log.info("Exception in thread while cleanning caches ", e);
 		}
 
 	}

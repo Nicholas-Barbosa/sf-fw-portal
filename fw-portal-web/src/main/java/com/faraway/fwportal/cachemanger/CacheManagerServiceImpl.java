@@ -21,6 +21,9 @@ public class CacheManagerServiceImpl implements CacheManagerService {
 
 	private static final Logger log = LoggerFactory.getLogger(CacheManagerServiceImpl.class);
 
+	private final DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL,
+			FormatStyle.FULL);
+
 	public CacheManagerServiceImpl(CacheManager cacheManager) {
 		super();
 		this.cacheManager = cacheManager;
@@ -35,9 +38,8 @@ public class CacheManagerServiceImpl implements CacheManagerService {
 	@Override
 	public void evictAllCacheValues(String cacheName) throws ObjectNotFoundException {
 		Locale.setDefault(new Locale("pt", "BR"));
-		DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.FULL);
 
-		log.info("Finding cache: " + cacheName + " at " + formater.format(ZonedDateTime.now()) + "...");
+		log.info("Finding cache: " + cacheName + " at " + formater.format(ZonedDateTime.now().minusHours(1)) + "...");
 		boolean containsCache = cacheManager.getCacheNames().parallelStream().anyMatch(ch -> ch.equals(cacheName));
 
 		if (containsCache) {
@@ -56,6 +58,13 @@ public class CacheManagerServiceImpl implements CacheManagerService {
 	public Collection<String> caches() {
 		// TODO Auto-generated method stub
 		return cacheManager.getCacheNames();
+	}
+
+	@Override
+	public void cleanAllCaches() {
+		log.info("Cleaning all caches" + " at " + formater.format(ZonedDateTime.now().minusHours(1)) + "...");
+		cacheManager.getCacheNames().forEach(name -> cacheManager.getCache(name).clear());
+		log.info("All caches have been cleaned" + " at " + formater.format(ZonedDateTime.now().minusHours(1)) + "...");
 	}
 
 }

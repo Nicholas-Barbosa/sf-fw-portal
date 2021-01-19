@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -17,6 +16,8 @@ public interface ConhecimentoRepository extends CrudRepository<Conhecimento, Lon
 
 	Set<Conhecimento> findByNotasChave(String chaveNota);
 
-	@Cacheable("findByEmissaoBetween")
 	Page<Conhecimento> findByEmissaoBetween(LocalDate dateBegin, LocalDate dateEnd, Pageable page);
+
+	Page<Conhecimento> findByEmissaoBetweenAndEmitenteCnpj(LocalDate dateBegin, LocalDate dateEnd, String cnpj,
+			Pageable page);
 }

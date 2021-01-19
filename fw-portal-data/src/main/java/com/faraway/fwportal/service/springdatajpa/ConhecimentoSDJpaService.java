@@ -121,6 +121,18 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 		return conhecimentoRepository.findByEmissaoBetween(begin, now, page);
 	}
 
+	@Override
+	public Page<Conhecimento> findByEmitenteThreeMonths(String cnpj, Pageable page) {
+		// TODO Auto-generated method stub
+		LocalDate now = LocalDate.now();
+		LocalDate begin = now.withDayOfMonth(1).minusMonths(3);
+		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
+		log.info("Finding conhecimentos by emitente between " + begin.format(formatter) + " - " + now.format(formatter)
+				+ "...");
+
+		return conhecimentoRepository.findByEmissaoBetweenAndEmitenteCnpj(begin, now, cnpj, page);
+	}
+
 	private Optional<Conhecimento> findAndPutOnMap(String chave) {
 		Optional<Conhecimento> response = conhecimentoRepository.findByChave(chave);
 		response.ifPresentOrElse(c -> map.put(c.getChave(), c),
@@ -133,4 +145,5 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 		log.info("Conhecimento by key not found!");
 		throw new NoSuchElementException(msg);
 	}
+
 }

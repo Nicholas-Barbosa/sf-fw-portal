@@ -11,4 +11,6 @@ public interface CacheManagerService {
 	void evictAllCacheValues(String cacheName) throws ObjectNotFoundException;
 
 	Collection<String> caches();
+
+	void cleanAllCaches();
 }

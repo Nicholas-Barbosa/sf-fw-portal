@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @JsonRootName("response")
-@JsonPropertyOrder({ "numero", "serie", "chave", "emissao", "total", "taxas", "imposto", "emitente", "remetente",
-		"destinatario", "origem", "destino", "carga", "notas" })
+@JsonPropertyOrder({ "numero", "serie", "chaveCte", "chave", "emissao", "total", "taxas", "imposto", "emitente",
+		"remetente", "destinatario", "origem", "destino", "carga", "notas" })
 @JsonInclude(Include.NON_NULL)
 public class ConhecimentoDto {
 
@@ -26,6 +26,7 @@ public class ConhecimentoDto {
 
 	@JsonProperty("chaveCte")
 	private String chave;
+
 	private String numero;
 	private String serie;
 	private BigDecimal total;

@@ -12,7 +12,7 @@ public class CacheDto {
 
 	private String result;
 
-	private Collection<String> caches;
+	private Collection<String> caches = new HashSet<>();
 
 	public CacheDto() {
 		// TODO Auto-generated constructor stub
@@ -26,7 +26,6 @@ public class CacheDto {
 	public static Stream<CacheDto> toDtoCollection(String st) {
 		CacheDto cacheDto = new CacheDto();
 		cacheDto.addCacheToCollection(st);
-
 		return Stream.of(cacheDto);
 	}
 
@@ -39,9 +38,6 @@ public class CacheDto {
 	}
 
 	private void addCacheToCollection(String cacheName) {
-		if (caches == null) {
-			caches = new HashSet<>();
-		}
 		caches.add(cacheName);
 	}
 }
