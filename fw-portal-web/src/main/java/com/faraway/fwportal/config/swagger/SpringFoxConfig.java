@@ -1,4 +1,4 @@
-package com.faraway.fwportal.swagger;
+package com.faraway.fwportal.config.swagger;
 
 import java.util.ArrayList;
 import java.util.List;
