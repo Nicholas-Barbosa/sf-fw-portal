@@ -31,8 +31,10 @@ public class CacheController {
 	}
 
 	@GetMapping(value = "/clean/{cacheName}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CacheDto> clearCache(@PathVariable("cacheName") String cacheName) {
+	public ResponseEntity<CacheDto> clearCache(@PathVariable("cacheName") String cacheName
+			) {
 		try {
+
 			cacheManagerService.evictAllCacheValues(cacheName);
 			DateTimeFormatter formater = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.FULL);
 			String response = "Cache " + cacheName + " cleaned successfully at "

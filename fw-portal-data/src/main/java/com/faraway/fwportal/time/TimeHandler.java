@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
-public class TimeHandler {
+public final class TimeHandler {
 
 	public static ZonedDateTime getZonedDateTime() {
 		return ZonedDateTime.now().minusHours(1);
@@ -15,6 +15,6 @@ public class TimeHandler {
 	}
 
 	public static LocalDateTime getLocalDateTime() {
-		return LocalDateTime.now();
+		return LocalDateTime.now().minusHours(1);
 	}
 }
