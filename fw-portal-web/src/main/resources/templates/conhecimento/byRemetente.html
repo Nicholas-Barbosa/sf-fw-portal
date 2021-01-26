@@ -9,29 +9,29 @@
 <body>
 
 	<div class="container pt-4">
-		<h2 th:text="#{findBySender}">!</h2>
+		<h2 th:text="#{findBySender}" id="h2">!</h2>
 
 
 
 		<br />
 
 		<div class="pt-2">
-			<form th:action="@{'/conhecimentos/findByRemetente/09512164000172'}"
-				method="get">
-				<div class="input-group mb-3">
-					<button class="btn btn-outline-success" type="submit"
-						id="button-addon1" th:text="#{find}">Button</button>
 
-					<input type="text" class="form-control" placeholder="CNPJ"
-						aria-label="Example text with button addon"
-						aria-describedby="button-addon1" th:field="*{cnpj}" required
-						id="cnpj">
-					<div class="invalid-feedback">Please provide a valid city.</div>
+			<div class="input-group mb-3">
+				<button class="btn btn-outline-success" type="submit"
+					id="button-addon1" th:text="#{find}" onclick="find()">Button</button>
 
-				</div>
-			</form>
+				<input type="text" class="form-control" placeholder="CNPJ"
+					aria-label="Example text with button addon"
+					aria-describedby="button-addon1" required id="inputCnpj">
+				<div class="invalid-feedback">Please provide a valid city.</div>
+
+			</div>
+
 		</div>
 
+		<div class="alert alert-success" role="alert" hidden="true"
+			id="divAlert">This is a success alert—check it out!</div>
 		<div class="pt-3">
 			<table class="table table-hover">
 				<thead>
@@ -57,8 +57,7 @@
 
 				</tbody>
 			</table>
-			<nav aria-label="Page navigation example"
-				th:if="${conhecimentos.totalPages > 0}">
+			<nav aria-label="Page navigation example">
 				<ul class="pagination">
 					<li class="page-item" th:each="pageNumber : ${pageNumbers}"><a
 						class="page-link" href="#"
@@ -67,21 +66,44 @@
 
 				</ul>
 			</nav>
+
 		</div>
 	</div>
 
-	<script th:inline="javascript">
-		/*<![CDATA[*/
-		var btn = document.querySelector("#button-addon1");
-		btn.addEventListener("click", getVariable);
 
-		function getVariable(event) {
-			var message = document.querySelector("#cnpj").textContent;
-			console.log("message " + message);
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-toggle="modal"
+		data-target="#exampleModal">Launch demo modal</button>
 
-		}
+	<!-- Modal -->
+	<div class="modal fade" id="fetchModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Fetching...</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
 
-		/*]]>*/
-	</script>
+					<div class="progress">
+						<div
+							class="progress-bar progress-bar-striped progress-bar-animated"
+							role="progressbar" aria-valuenow="75" aria-valuemin="0"
+							aria-valuemax="100" style="width: 100%"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						onclick="closeModal()">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/resources/js/view/byRemetenteView.js}"></script>
 </body>
 </html>

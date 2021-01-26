@@ -43,7 +43,6 @@ public class ConhecimentoController {
 		Pageable pageParam = PageRequest.of(currentPage, pageSize);
 		Page<Conhecimento> conhecimentos = conhecimentoCrudService.findByRemetenteThreeMonths(cnpj, pageParam)
 				.map(Conhecimento::new);
-
 		model.addAttribute("conhecimentos", conhecimentos);
 		System.out.println("CNPJ " + cnpj);
 		int totalPages = conhecimentos.getTotalPages();

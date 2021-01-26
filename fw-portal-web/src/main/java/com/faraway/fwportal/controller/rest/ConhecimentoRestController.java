@@ -37,6 +37,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(value = "ConhecimentoRestController")
 @RestController
 @RequestMapping("/conhecimentos/rest")
+@CrossOrigin(origins = "*")
 public class ConhecimentoRestController {
 
 	private final ConhecimentoCrdService conhecimentoCrudService;
