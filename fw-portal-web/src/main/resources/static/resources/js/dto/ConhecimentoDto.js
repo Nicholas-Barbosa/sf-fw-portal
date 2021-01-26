@@ -10,8 +10,10 @@ class ConhecimentoDto {
     _emitente;
     _remetente;
     _destinatario;
+    _origem;
+    _destino;
 
-    constructor(numero,serie,chave,emissao,total,taxas,imposto,emitente,remetente,destinatario){
+    constructor(numero,serie,chave,emissao,total,taxas,imposto,emitente,remetente,destinatario,origem,destino){
         this._numero = numero;
         this._serie = serie;
         this._chave = chave;
@@ -25,9 +27,13 @@ class ConhecimentoDto {
       
         this.createImpostoObject(imposto);
         
-            this.createEntidadeObject(emitente,1);
-            this.createEntidadeObject(remetente,2);
-            this.createEntidadeObject(destinatario,3);
+        this._emitente = this.createEntidadeObject(emitente);
+        
+        this._remetente =  this.createEntidadeObject(remetente);
+        this._destinatario =  this.createEntidadeObject(destinatario);
+
+        this._origem = this.creatCidadeObject(origem);
+        this._destino = this.creatCidadeObject(destino);
          }
 
    
@@ -35,14 +41,15 @@ class ConhecimentoDto {
         this._imposto = new ImpostoDto(imposto.baseCalculo,imposto.porcentagemIcms,imposto.valorIcms);
     }
 
-    createEntidadeObject(entidade,op){
-        if(op==1){
-            this._emitente  = new EntidadeDto(entidade.CNPJ,entidade.nome);
-        }else if(op==2)
-            this._remetente = new EntidadeDto(entidade.CNPJ,entidade.nome);
-        else
-            this._destinatario =  new EntidadeDto(entidade.CNPJ,entidade.nome);
+    createEntidadeObject(entidade){
+            return new EntidadeDto(entidade.CNPJ,entidade.nome);
+       
     }
+
+    creatCidadeObject(cidade){
+        return new CidadeDto(cidade.nome,cidade.uf,cidade.codigo);
+        }
+    
     getNumero() {
         return this._numero;
     }
@@ -79,5 +86,13 @@ class ConhecimentoDto {
 
     getDestinatario(){
         return this._destinatario;
+    }
+
+    getOrigem(){
+        return this._origem;
+    }
+
+    getDestino(){
+        return this._destino;
     }
 }
