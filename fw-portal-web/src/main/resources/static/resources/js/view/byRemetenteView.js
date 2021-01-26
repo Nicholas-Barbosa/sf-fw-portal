@@ -65,13 +65,16 @@ function find(){
        generateTags(responseJson){
             var content = responseJson.content;
             for(var i=0; i<content.length;i++){
-                var conhecimento = this.createObject(content[i]);
+                var conhecimento = this.createConhecimentoObject(content[i]);
+                var taxa = conhecimento.getTaxas()[0];
+               
+               console.log("chave "+ conhecimento.getChave()+" emissao "+ conhecimento.getEmissao() +" taxa[0] " +taxa.getValor());
+                console.log("imposto " +conhecimento.getImposto());
                 
-               console.log("chave "+ conhecimento.getChave()+" emissao "+ conhecimento.getEmissao());
             }
      }
 
-     createObject(objectResponse){
+     createConhecimentoObject(objectResponse){
        
             var numero = objectResponse.numero;
             var serie = objectResponse.serie;
@@ -79,7 +82,8 @@ function find(){
             var emissao = objectResponse.emissao;
             var total = objectResponse.total
             var taxas = objectResponse.componente;
-            return new ConhecimentoDto(numero,serie,chave,emissao,total,taxas);
+            var imposto = objectResponse.imposto;
+            return new ConhecimentoDto(numero,serie,chave,emissao,total,taxas,imposto);
          
      }
     }
