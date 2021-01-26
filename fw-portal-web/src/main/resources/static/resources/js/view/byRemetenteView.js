@@ -69,8 +69,10 @@ function find(){
                 var taxa = conhecimento.getTaxas()[0];
                
                console.log("chave "+ conhecimento.getChave()+" emissao "+ conhecimento.getEmissao() +" taxa[0] " +taxa.getValor());
-                console.log("imposto " +conhecimento.getImposto());
-                
+              console.log("imposto " +conhecimento.getImposto());
+              console.log("emitente " + conhecimento.getEmitente().getNome());
+              console.log("remetente " + conhecimento.getRemetente().getNome());
+              console.log("destinatario " + conhecimento.getDestinatario().getNome());
             }
      }
 
@@ -83,7 +85,11 @@ function find(){
             var total = objectResponse.total
             var taxas = objectResponse.componente;
             var imposto = objectResponse.imposto;
-            return new ConhecimentoDto(numero,serie,chave,emissao,total,taxas,imposto);
+            var emitente = objectResponse.emitente;
+            var remetente = objectResponse.remetente;
+            var destinatario = objectResponse.destinatario;
+            return new ConhecimentoDto(numero,serie,chave,emissao,total,taxas,imposto,emitente,
+                remetente,destinatario);
          
      }
     }
