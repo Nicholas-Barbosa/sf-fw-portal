@@ -54,6 +54,11 @@ public class Conhecimento extends Documento {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Conhecimento(String chave) {
+		super();
+		this.chave = chave;
+	}
+
 	public Conhecimento(String numero, String serie, LocalDate emissao, BigDecimal total, Cidade cidadeInicio,
 			Cidade cidadeDestino, Transportadora emitente, Empresa remetente, Empresa destinatario, Set<Nota> notas,
 			Imposto imposto, Carga carga, String chave, Set<TaxaConhecimento> taxas) {

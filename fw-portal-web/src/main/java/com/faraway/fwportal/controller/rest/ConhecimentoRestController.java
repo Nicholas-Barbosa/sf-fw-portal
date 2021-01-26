@@ -36,7 +36,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "ConhecimentoRestController")
 @RestController
-@RequestMapping("/rest/conhecimentos")
+@RequestMapping("/conhecimentos/rest")
 public class ConhecimentoRestController {
 
 	private final ConhecimentoCrdService conhecimentoCrudService;

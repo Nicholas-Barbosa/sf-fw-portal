@@ -134,6 +134,7 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 		return conhecimentoRepository.findByEmissaoBetweenAndEmitenteCnpj(begin, now, cnpj, page);
 	}
 
+	@Cacheable("conhecimentoFindByRemetente")
 	@Override
 	public Page<Conhecimento> findByRemetenteThreeMonths(String cnpj, Pageable page) {
 		LocalDate now = TimeHandler.getLocalDate();

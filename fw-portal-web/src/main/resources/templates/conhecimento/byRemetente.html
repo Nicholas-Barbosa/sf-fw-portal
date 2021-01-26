@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	th:replace="fragments/layout :: layout (~{::body},'Conhecimentos- Find by Remetente')">
+<head>
+<title>Hello World!</title>
+</head>
+<body>
+
+	<div class="container pt-4">
+		<h2 th:text="#{findBySender}">!</h2>
+
+
+
+		<br />
+
+		<div class="pt-2">
+			<form th:action="@{'/conhecimentos/findByRemetente/09512164000172'}"
+				method="get">
+				<div class="input-group mb-3">
+					<button class="btn btn-outline-success" type="submit"
+						id="button-addon1" th:text="#{find}">Button</button>
+
+					<input type="text" class="form-control" placeholder="CNPJ"
+						aria-label="Example text with button addon"
+						aria-describedby="button-addon1" th:field="*{cnpj}" required
+						id="cnpj">
+					<div class="invalid-feedback">Please provide a valid city.</div>
+
+				</div>
+			</form>
+		</div>
+
+		<div class="pt-3">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Numero</th>
+						<th scope="col">Serie</th>
+						<th scope="col">Emissao</th>
+						<th scope="col">Total</th>
+						<th scope="col">Componentes</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="conhecimento : ${conhecimentos}">
+						<th scope="row" th:text="${conhecimento.chave}">1</th>
+						<td th:text="${conhecimento.numero}">Mark</td>
+						<td th:text="${conhecimento.serie}">Mark</td>
+						<td
+							th:text="${#temporals.format(conhecimento.emissao,'dd/MM/yyyy')}">Mark</td>
+						<td th:text="${conhecimento.total}">Mark</td>
+
+					</tr>
+
+				</tbody>
+			</table>
+			<nav aria-label="Page navigation example"
+				th:if="${conhecimentos.totalPages > 0}">
+				<ul class="pagination">
+					<li class="page-item" th:each="pageNumber : ${pageNumbers}"><a
+						class="page-link" href="#"
+						th:href="@{/conhecimentos/findByRemetente/09512164000172(size=${conhecimentos.size}, page=${pageNumber})}"
+						th:text=${pageNumber}></a></li>
+
+				</ul>
+			</nav>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var btn = document.querySelector("#button-addon1");
+		btn.addEventListener("click", getVariable);
+
+		function getVariable(event) {
+			var message = document.querySelector("#cnpj").textContent;
+			console.log("message " + message);
+
+		}
+
+		/*]]>*/
+	</script>
+</body>
+</html>
