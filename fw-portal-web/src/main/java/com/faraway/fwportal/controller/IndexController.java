@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class HelloController {
+public class IndexController {
 
 	@RequestMapping("/")
 	public String hello() {
-		return "hello";
+		return "index";
 	}
 }

@@ -1,4 +1,4 @@
-package com.faraway.fwportal.controller;
+package com.faraway.fwportal.controller.rest;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -6,6 +6,7 @@ import java.time.format.FormatStyle;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.faraway.fwportal.cachemanger.CacheManagerService;
 import com.faraway.fwportal.dto.CacheDto;
 import com.faraway.fwportal.exception.ObjectNotFoundException;
+import com.faraway.fwportal.internationalization.ObjRBundle;
 
 @RestController
 @RequestMapping("cache")
@@ -31,8 +33,7 @@ public class CacheController {
 	}
 
 	@GetMapping(value = "/clean/{cacheName}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CacheDto> clearCache(@PathVariable("cacheName") String cacheName
-			) {
+	public ResponseEntity<CacheDto> clearCache(@PathVariable("cacheName") String cacheName) {
 		try {
 
 			cacheManagerService.evictAllCacheValues(cacheName);
@@ -49,6 +50,7 @@ public class CacheController {
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<CacheDto>> caches() {
+		System.out.println(ObjRBundle.Build().getMessage("notFound", "222323"));
 		Collection<CacheDto> caches = cacheManagerService.caches().parallelStream().flatMap(CacheDto::toDtoCollection)
 				.collect(CopyOnWriteArraySet::new, Collection::add, Collection::addAll);
 		return new ResponseEntity<Collection<CacheDto>>(caches, HttpStatus.OK);
