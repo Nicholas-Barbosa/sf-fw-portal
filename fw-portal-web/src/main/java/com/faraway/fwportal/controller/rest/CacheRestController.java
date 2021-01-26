@@ -22,12 +22,12 @@ import com.faraway.fwportal.exception.ObjectNotFoundException;
 import com.faraway.fwportal.internationalization.ObjRBundle;
 
 @RestController
-@RequestMapping("cache")
-public class CacheController {
+@RequestMapping("/rest/caches")
+public class CacheRestController {
 
 	private CacheManagerService cacheManagerService;
 
-	public CacheController(CacheManagerService cacheManagerService) {
+	public CacheRestController(CacheManagerService cacheManagerService) {
 		super();
 		this.cacheManagerService = cacheManagerService;
 	}
