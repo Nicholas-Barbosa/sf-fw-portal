@@ -9,14 +9,14 @@
 </head>
 <body>
 
-	<div class="container pt-4">
+	<div class="container-fluid pt-4">
 		<h2 th:text="#{findBySender}" id="h2">!</h2>
 
 
 
 		<br />
 
-		<div class="pt-2">
+		<div class="container pt-2">
 
 			<div class="input-group mb-3">
 				<button class="btn btn-outline-success" type="button"
@@ -43,6 +43,11 @@
 						<th scope="col" th:text="#{emission}">Emissao</th>
 						<th scope="col" th:text="#{totale}">Total</th>
 						<th scope="col" th:text="#{issuer}">Emitente</th>
+						
+						<th scope="col" th:text="#{sender}">Remetente</th>
+						
+						<th scope="col" th:text="#{recipient}">Destinatario</th>
+						
 					</tr>
 				</thead>
 				<tbody id="tabela-conhecimentos">

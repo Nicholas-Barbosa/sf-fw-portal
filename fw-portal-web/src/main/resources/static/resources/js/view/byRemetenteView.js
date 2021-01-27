@@ -1,25 +1,40 @@
 function find(){
-    
-            
-           
             var cnpj= document.getElementById("inputCnpj").value;
-            if(cnpj==ByRemetenteView._lastCnpj){
-                 var msg = document.getElementById("divAlert");
-                 msg.textContent="Este CNPJ foi usado como parametro para a busca anterior. Use outro.";
-                 msg.classList.add('alert-danger');
+            if(verifyCurrentAndLastCnpj(cnpj)){
+                addStyleForDivMsg("Este CNPJ foi usado como parametro para a busca anterior.",'alert-danger');
                  
             }else{ 
-                var parent = document.getElementById("tabela-conhecimentos");
-                while(parent.hasChildNodes()) {
-                    parent.removeChild(parent.firstChild);
-                }
+                deleteAllRowsFromTable();
+
                 view.makeRequest(cnpj);
              
             }
-
             
-    }
+}
+function verifyCurrentAndLastCnpj(cnpj){
+    return cnpj == ByRemetenteView._lastCnpj;
+}
 
+function deleteAllRowsFromTable(){
+    var parent = document.getElementById("tabela-conhecimentos");
+    while(parent.hasChildNodes()) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+function addStyleForDivMsg(msgToPrint,alert){
+    var msg = document.getElementById("divAlert");
+    if(msg.classList.contains('alert-warning'))
+    msg.classList.remove('alert-warning');
+    
+    if(msg.classList.contains('alert-danger'))
+    msg.classList.remove('alert-danger');
+
+    msg.hidden =false; 
+
+    msg.textContent=msgToPrint;
+    msg.classList.add(alert);
+}
 
 
 
@@ -53,29 +68,22 @@ function find(){
     
         changeCssClassOfDivAndAddMessage(status,response,cnpj){
                   
-               const cssWarning = 'alert-warning';
-               const cssSucess ='alert-success';
-                  const cssDanger = 'alert-danger';
-               var msg = document.getElementById("divAlert");
-               msg.hidden =false; 
+            const cssWarning = 'alert-warning';
+            const cssSucess ='alert-success';
+            const cssDanger = 'alert-danger';
             
             if(status==200){
-                msg.textContent="Conhecimentos encontrados.";
+                addStyleForDivMsg("Conhecimentos encontrados.",cssSucess );
                 this.generateTags(response);
-                  if(msg.classList.contains(cssWarning))
-                        msg.classList.remove(cssWarning);
-                        
-                  if(msg.classList.contains(cssDanger))
-                        msg.classList.remove(cssDanger);
-                msg.classList.add(cssSucess);
+                
+              
                
             }else{
                 if(status=404){
-                    msg.textContent="Nenhum conhecimento encotrado.";
-                    msg.classList.add(cssWarning);
+                    addStyleForDivMsg("Nenhum conhecimento encontrado.",cssWarning );
                 }else{
-                    msg.textContent="Erro interno no servidor!";
-                    msg.classList.add(cssDanger);
+                    addStyleForDivMsg("Erro interno no servidor!",cssDanger );
+                    
                 }
                 
             }
@@ -112,7 +120,18 @@ function find(){
         conhecimentoTr.appendChild(this.montaTd(conhecimento.getSerie()));
         conhecimentoTr.appendChild(this.montaTd(conhecimento.getEmissao()));
         conhecimentoTr.appendChild(this.montaTd(conhecimento.getTotal()));
-        conhecimentoTr.appendChild(this.montaTd(conhecimento.getEmitente().getNome()));
+
+        var emitente = conhecimento.getEmitente();
+        conhecimentoTr.appendChild(this.montaTd(emitente.getNome()));
+        
+
+        var remetente = conhecimento.getRemetente();
+        conhecimentoTr.appendChild(this.montaTd(remetente.getNome()));
+      
+
+        var destinatario = conhecimento.getDestinatario();
+        conhecimentoTr.appendChild(this.montaTd(destinatario.getNome()));
+       
         //   conhecimentoTr.appendChild(this.montaTd(conhecimento.numero));
         // conhecimentoTr.appendChild(this.montaTd(conhecimento.serie));
         // conhecimentoTr.appendChild(this.montaTd(conhecimento.chave));
