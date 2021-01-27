@@ -6,11 +6,11 @@ import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.faraway.fwportal.model.Conhecimento;
 
-public interface ConhecimentoRepository extends CrudRepository<Conhecimento, Long> {
+public interface ConhecimentoRepository extends PagingAndSortingRepository<Conhecimento, Long> {
 
 	Optional<Conhecimento> findByChave(String chave);
 

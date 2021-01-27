@@ -37,23 +37,14 @@
 				<thead>
 					<tr>
 						<th scope="col">#</th>
-						<th scope="col">Numero</th>
-						<th scope="col">Serie</th>
-						<th scope="col">Emissao</th>
-						<th scope="col">Total</th>
-						<th scope="col">Componentes</th>
+						<th scope="col" th:text="#{number}">Numero</th>
+						<th scope="col" th:text="#{serie}">Serie</th>
+						<th scope="col" th:text="#{emission}">Emissao</th>
+						<th scope="col" th:text="#{totale}">Total</th>
+						<th scope="col" th:text="#{issuer}">Emitente</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr th:each="conhecimento : ${conhecimentos}">
-						<th scope="row" th:text="${conhecimento.chave}">1</th>
-						<td th:text="${conhecimento.numero}">Mark</td>
-						<td th:text="${conhecimento.serie}">Mark</td>
-						<td
-							th:text="${#temporals.format(conhecimento.emissao,'dd/MM/yyyy')}">Mark</td>
-						<td th:text="${conhecimento.total}">Mark</td>
-
-					</tr>
+				<tbody id="tabela-conhecimentos">
 
 				</tbody>
 			</table>
@@ -71,9 +62,7 @@
 	</div>
 
 
-	<!-- Button trigger modal -->
-	<button type="button" class="btn btn-primary" data-toggle="modal"
-		data-target="#exampleModal">Launch demo modal</button>
+	
 
 	<!-- Modal -->
 	<div class="modal fade" id="fetchModal" tabindex="-1" role="dialog"

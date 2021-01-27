@@ -26,7 +26,7 @@ function find(){
                 view.changeCssClassOfDivAndAddMessage(client.status,response);
                 
               }
-              client.open("GET", "http://localhost:8080/conhecimentos/rest/findByRemetente/"+cnpj);
+              client.open("GET", "https://farawaybr.com/conhecimentos/rest/findByRemetente/"+cnpj);
               client.send();
         }
     
@@ -63,19 +63,20 @@ function find(){
         }
         
        generateTags(responseJson){
-            var content = responseJson.content;
-            for(var i=0; i<content.length;i++){
-                var conhecimento = this.createConhecimentoObject(content[i]);
-                var taxa = conhecimento.getTaxas()[0];
-               
-               console.log("chave "+ conhecimento.getChave()+" emissao "+ conhecimento.getEmissao() +" taxa[0] " +taxa.getValor());
-              console.log("imposto " +conhecimento.getImposto());
-              console.log("emitente " + conhecimento.getEmitente().getNome());
-              console.log("remetente " + conhecimento.getRemetente().getNome());
-              console.log("destinatario " + conhecimento.getDestinatario().getNome());
-              console.log("origem " + conhecimento.getOrigem().getNome());
-              console.log("destino " + conhecimento.getDestino().getNome());
-              console.log("produto predominante " +conhecimento.getCarga().getProdutoPredominante());
+
+        var tabela = document.querySelector("#tabela-conhecimentos");
+        var content = responseJson.content;
+       
+    //    console.log("content " +content.length);
+    //     for(var i=0;i<content.length;i++){
+    //         var conhecimentoTr = this.montaTr(content[i]);
+    //                tabela.appendChild(conhecimentoTr);
+    //     }
+        for(var i=0; i<content.length;i++){
+               var conhecimento = this.createConhecimentoObject(content[i]);
+               // this.generateTable(tabela,conhecimento);
+               var conhecimentoTr = this.montaTr(conhecimento);
+               tabela.appendChild(conhecimentoTr);
             }
      }
 
@@ -100,5 +101,29 @@ function find(){
                 remetente,destinatario,origem,destino,carga,notas);
          
      }
+
+     montaTr(conhecimento) {
+        var conhecimentoTr = document.createElement("tr");
+        conhecimentoTr.classList.add("conhecimento");
+    
+        conhecimentoTr.appendChild(this.montaTd(conhecimento.getChave()));
+        conhecimentoTr.appendChild(this.montaTd(conhecimento.getNumero()));
+        conhecimentoTr.appendChild(this.montaTd(conhecimento.getSerie()));
+        conhecimentoTr.appendChild(this.montaTd(conhecimento.getEmissao()));
+        conhecimentoTr.appendChild(this.montaTd(conhecimento.getTotal()));
+        conhecimentoTr.appendChild(this.montaTd(conhecimento.getEmitente().getNome()));
+        //   conhecimentoTr.appendChild(this.montaTd(conhecimento.numero));
+        // conhecimentoTr.appendChild(this.montaTd(conhecimento.serie));
+        // conhecimentoTr.appendChild(this.montaTd(conhecimento.chave));
+        // conhecimentoTr.appendChild(this.montaTd(conhecimento.emissao));
+        return conhecimentoTr;
+    }
+    montaTd(dado) {
+        var td = document.createElement("td");
+  
+        td.textContent = dado;
+        
+        return td;
+    }
     }
     var view = new ByRemetenteView();

@@ -39,6 +39,5 @@
 		<module>fw-portal-data</module>
 		<module>fw-portal-web</module>
 		<module>fw-portal-sefaz</module>
-		<module>fw-frontend-jsf</module>
 	</modules>
 </project>
