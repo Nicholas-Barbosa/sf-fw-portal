@@ -75,6 +75,7 @@ function find(){
               console.log("destinatario " + conhecimento.getDestinatario().getNome());
               console.log("origem " + conhecimento.getOrigem().getNome());
               console.log("destino " + conhecimento.getDestino().getNome());
+              console.log("produto predominante " +conhecimento.getCarga().getProdutoPredominante());
             }
      }
 
@@ -92,8 +93,11 @@ function find(){
             var destinatario = objectResponse.destinatario;
             var origem = objectResponse.origem;
             var destino = objectResponse.destino;
+            var carga = objectResponse.infoCarga;
+            var notas = objectResponse.notas;
+
             return new ConhecimentoDto(numero,serie,chave,emissao,total,taxas,imposto,emitente,
-                remetente,destinatario,origem,destino);
+                remetente,destinatario,origem,destino,carga,notas);
          
      }
     }

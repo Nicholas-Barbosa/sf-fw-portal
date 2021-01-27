@@ -12,8 +12,11 @@ class ConhecimentoDto {
     _destinatario;
     _origem;
     _destino;
+    _carga;
+    _notas=[];
 
-    constructor(numero,serie,chave,emissao,total,taxas,imposto,emitente,remetente,destinatario,origem,destino){
+    constructor(numero,serie,chave,emissao,total,taxas,imposto,emitente,remetente,
+        destinatario,origem,destino,carga,notas){
         this._numero = numero;
         this._serie = serie;
         this._chave = chave;
@@ -26,15 +29,17 @@ class ConhecimentoDto {
         });
       
         this.createImpostoObject(imposto);
-        
         this._emitente = this.createEntidadeObject(emitente);
-        
         this._remetente =  this.createEntidadeObject(remetente);
         this._destinatario =  this.createEntidadeObject(destinatario);
-
         this._origem = this.creatCidadeObject(origem);
         this._destino = this.creatCidadeObject(destino);
-         }
+        this._carga = new CargaDto(carga.valor,carga.produtoPredominante,carga.medidas);
+        this._notas = notas.map(function(object){
+              return new NotaDto(object.numero,object.serie,object.chave);      
+        })
+        
+     }
 
    
     createImpostoObject(imposto){
@@ -94,5 +99,13 @@ class ConhecimentoDto {
 
     getDestino(){
         return this._destino;
+    }
+
+    getCarga(){
+        return this._carga;
+    }
+
+    getNotas(){
+        return this._notas;
     }
 }
