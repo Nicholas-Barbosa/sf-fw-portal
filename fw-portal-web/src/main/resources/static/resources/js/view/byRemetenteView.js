@@ -1,37 +1,57 @@
 function find(){
-    //	$("#fetchModal").modal('show');
-            
-              
-            var cnpj= document.getElementById("inputCnpj").value; 
-            view.makeRequest(cnpj);
-    }
     
+            
+           
+            var cnpj= document.getElementById("inputCnpj").value;
+            if(cnpj==ByRemetenteView._lastCnpj){
+                 var msg = document.getElementById("divAlert");
+                 msg.textContent="Este CNPJ foi usado como parametro para a busca anterior. Use outro.";
+                 msg.classList.add('alert-danger');
+                 
+            }else{ 
+                var parent = document.getElementById("tabela-conhecimentos");
+                while(parent.hasChildNodes()) {
+                    parent.removeChild(parent.firstChild);
+                }
+                view.makeRequest(cnpj);
+             
+            }
+
+            
+    }
+
+
+
+
     function closeModal(){
     console.log("closing modal...");
     $("#fetchModal").modal('hide');
     }
     
     
-    
+  
+
     class ByRemetenteView{
     
+        static _lastCnpj;
         
+
         makeRequest(cnpj,currentPage,size){
              var client = new XMLHttpRequest();
-          client.onload = function() {
+             client.onload = function() {
                 // in case of network errors this might not give reliable results
              
-                var response = JSON.parse(client.responseText);
-                var view = new ByRemetenteView();
-                view.changeCssClassOfDivAndAddMessage(client.status,response);
-                
+            var response = JSON.parse(client.responseText);
+            var view = new ByRemetenteView();
+            view.changeCssClassOfDivAndAddMessage(client.status,response,cnpj);
+              
               }
               client.open("GET", "https://farawaybr.com/conhecimentos/rest/findByRemetente/"+cnpj);
               client.send();
         }
     
     
-        changeCssClassOfDivAndAddMessage(status,response){
+        changeCssClassOfDivAndAddMessage(status,response,cnpj){
                   
                const cssWarning = 'alert-warning';
                const cssSucess ='alert-success';
@@ -52,56 +72,37 @@ function find(){
             }else{
                 if(status=404){
                     msg.textContent="Nenhum conhecimento encotrado.";
-                  
                     msg.classList.add(cssWarning);
                 }else{
                     msg.textContent="Erro interno no servidor!";
                     msg.classList.add(cssDanger);
                 }
+                
             }
-            
+            ByRemetenteView._lastCnpj=cnpj;
         }
         
        generateTags(responseJson){
 
         var tabela = document.querySelector("#tabela-conhecimentos");
         var content = responseJson.content;
-       
+        var objectBuilder = new ConhecimentoBuilderService();
+        
     //    console.log("content " +content.length);
     //     for(var i=0;i<content.length;i++){
     //         var conhecimentoTr = this.montaTr(content[i]);
     //                tabela.appendChild(conhecimentoTr);
     //     }
         for(var i=0; i<content.length;i++){
-               var conhecimento = this.createConhecimentoObject(content[i]);
                // this.generateTable(tabela,conhecimento);
+               var conhecimento = objectBuilder.createConhecimentoObject(content[i]);
+              
                var conhecimentoTr = this.montaTr(conhecimento);
                tabela.appendChild(conhecimentoTr);
             }
      }
 
-     createConhecimentoObject(objectResponse){
-       
-            var numero = objectResponse.numero;
-            var serie = objectResponse.serie;
-            var chave = objectResponse.chaveCte;
-            var emissao = objectResponse.emissao;
-            var total = objectResponse.total
-            var taxas = objectResponse.componente;
-            var imposto = objectResponse.imposto;
-            var emitente = objectResponse.emitente;
-            var remetente = objectResponse.remetente;
-            var destinatario = objectResponse.destinatario;
-            var origem = objectResponse.origem;
-            var destino = objectResponse.destino;
-            var carga = objectResponse.infoCarga;
-            var notas = objectResponse.notas;
-
-            return new ConhecimentoDto(numero,serie,chave,emissao,total,taxas,imposto,emitente,
-                remetente,destinatario,origem,destino,carga,notas);
-         
-     }
-
+   
      montaTr(conhecimento) {
         var conhecimentoTr = document.createElement("tr");
         conhecimentoTr.classList.add("conhecimento");
