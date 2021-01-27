@@ -1,15 +1,16 @@
-function find(){
+    function find(){
             var cnpj= document.getElementById("inputCnpj").value;
+           
             if(verifyCurrentAndLastCnpj(cnpj)){
                 addStyleForDivMsg("Este CNPJ foi usado como parametro para a busca anterior.",'alert-danger');
                  
             }else{ 
                 deleteAllRowsFromTable();
-
-                view.makeRequest(cnpj);
+                
+                view.findConhecimentoByRemetente(cnpj);
              
             }
-            
+           
 }
 function verifyCurrentAndLastCnpj(cnpj){
     return cnpj == ByRemetenteView._lastCnpj;
@@ -23,7 +24,7 @@ function deleteAllRowsFromTable(){
 }
 
 function addStyleForDivMsg(msgToPrint,alert){
-    var msg = document.getElementById("divAlert");
+    var msg = view.getDivMsg();
     if(msg.classList.contains('alert-warning'))
     msg.classList.remove('alert-warning');
     
@@ -49,25 +50,53 @@ function addStyleForDivMsg(msgToPrint,alert){
     class ByRemetenteView{
     
         static _lastCnpj;
-        
+        _divMsg = document.getElementById("divAlert");
+        _btnFindConhecimento = document.getElementById("btnFindConhecimentoByRemetente");
 
-        makeRequest(cnpj,currentPage,size){
+        getDivMsg(){
+            return this._divMsg;
+        }
+
+        getBtnFindConhecimento(){
+            return this._btnFindConhecimento;
+        }
+
+        modifyBtnFindConhecimento(msg,style){
+           
+            var lenght = this._btnFindConhecimento.classList.length;
+            var itemToRemoveFromStyle = this._btnFindConhecimento.classList.item(lenght-1);
+            this._btnFindConhecimento.classList.replace(itemToRemoveFromStyle,style);
+           
+            this._btnFindConhecimento.textContent  =msg;
+        }
+        findConhecimentoByRemetente(cnpj,currentPage,size){
+            this.modifyBtnFindConhecimento("Procurando...",'btn-outline-info');
+
              var client = new XMLHttpRequest();
              client.onload = function() {
                 // in case of network errors this might not give reliable results
-             
-            var response = JSON.parse(client.responseText);
-            var view = new ByRemetenteView();
-            view.changeCssClassOfDivAndAddMessage(client.status,response,cnpj);
+                try{
+                    var response = JSON.parse(client.responseText);
+                    var view = new ByRemetenteView();
+                    view.convertToObjectAndReturnMsg(client.status,response,cnpj);
+                }catch(e){
+                    if(e instanceof Error){
+                        addStyleForDivMsg(e+ " client js!",'alert-danger');
+                    }
+                }
+                
               
               }
               client.open("GET", "https://farawaybr.com/conhecimentos/rest/findByRemetente/"+cnpj);
               client.send();
-        }
+          
+           
+            }
+        
     
     
-        changeCssClassOfDivAndAddMessage(status,response,cnpj){
-                  
+        convertToObjectAndReturnMsg(status,response,cnpj){
+           
             const cssWarning = 'alert-warning';
             const cssSucess ='alert-success';
             const cssDanger = 'alert-danger';
@@ -88,6 +117,7 @@ function addStyleForDivMsg(msgToPrint,alert){
                 
             }
             ByRemetenteView._lastCnpj=cnpj;
+            this.modifyBtnFindConhecimento("Procurar",'btn-outline-success');
         }
         
        generateTags(responseJson){
@@ -95,14 +125,9 @@ function addStyleForDivMsg(msgToPrint,alert){
         var tabela = document.querySelector("#tabela-conhecimentos");
         var content = responseJson.content;
         var objectBuilder = new ConhecimentoBuilderService();
-        
-    //    console.log("content " +content.length);
-    //     for(var i=0;i<content.length;i++){
-    //         var conhecimentoTr = this.montaTr(content[i]);
-    //                tabela.appendChild(conhecimentoTr);
-    //     }
+
         for(var i=0; i<content.length;i++){
-               // this.generateTable(tabela,conhecimento);
+             
                var conhecimento = objectBuilder.createConhecimentoObject(content[i]);
               
                var conhecimentoTr = this.montaTr(conhecimento);
@@ -140,10 +165,8 @@ function addStyleForDivMsg(msgToPrint,alert){
     }
     montaTd(dado) {
         var td = document.createElement("td");
-  
         td.textContent = dado;
-        
         return td;
     }
     }
-    var view = new ByRemetenteView();
+     var view = new ByRemetenteView();
