@@ -23,8 +23,8 @@ public class SpringFoxConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.faraway.fwportal.controller")).paths(PathSelectors.any())
-				.build().useDefaultResponseMessages(false)
+				.apis(RequestHandlerSelectors.basePackage("com.faraway.fwportal.controller.rest"))
+				.paths(PathSelectors.any()).build().useDefaultResponseMessages(false)
 				.globalResponseMessage(RequestMethod.GET, responseMessageForGET()).apiInfo(apiInfo());
 	}
 
@@ -42,7 +42,8 @@ public class SpringFoxConfig {
 
 	private ApiInfo apiInfo() {
 		springfox.documentation.service.Contact contact = new springfox.documentation.service.Contact(
-				"Nicholas Barbosa", "https://faraway.com.br/", "nicholas.barbosa0604@hotmail.com");
+				"Nicholas Barbosa", "https://www.linkedin.com/in/nicholas-barbosa-b14b7619b/",
+				"nicholas.barbosa0604@hotmail.com");
 		return new ApiInfoBuilder().title("FarAway REST API.")
 				.description(
 						"Spring Boot REST API for communication between systems.Many of these datas came from SEFAZ.")

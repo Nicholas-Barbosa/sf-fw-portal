@@ -1,7 +1,10 @@
 package com.faraway.fwportal.dto;
 
+import com.faraway.fwportal.model.Endereco;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+@JsonInclude(Include.NON_NULL)
 public class SuperEntidadeDto {
 
 	@JsonProperty("CNPJ")
@@ -10,6 +13,8 @@ public class SuperEntidadeDto {
 	@JsonProperty("nome")
 	private String nome;
 
+	private EnderecoDto endereco;
+	
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -26,7 +31,13 @@ public class SuperEntidadeDto {
 		this.nome = nome;
 	}
 
+	public EnderecoDto getEndereco() {
+		return endereco;
+	}
 
-	
+	public final void setEndereco(Endereco endereco) {
+		this.endereco = new EnderecoDto(endereco);
+	}
+
 	
 }

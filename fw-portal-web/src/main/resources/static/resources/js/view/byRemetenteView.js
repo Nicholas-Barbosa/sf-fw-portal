@@ -1,57 +1,38 @@
     function find(){
             var cnpj= document.getElementById("inputCnpj").value;
-           
+            console.log("cnpj lenght " +cnpj.length)
+           if(cnpj.length>0){
             if(verifyCurrentAndLastCnpj(cnpj)){
-                addStyleForDivMsg("Este CNPJ foi usado como parametro para a busca anterior.",'alert-danger');
+                view.modifyStyleAndAddForDivMsg("Este CNPJ foi usado como parametro para a busca anterior.",'alert-danger');
                  
             }else{ 
-                deleteAllRowsFromTable();
+                view.removeAllEntriesFromTableConhecimentos();
                 
                 view.findConhecimentoByRemetente(cnpj);
              
             }
+        }else
+            view.modifyStyleAndAddForDivMsg("Campo CNPJ invalido!",'alert-danger');
            
 }
 function verifyCurrentAndLastCnpj(cnpj){
     return cnpj == ByRemetenteView._lastCnpj;
 }
 
-function deleteAllRowsFromTable(){
-    var parent = document.getElementById("tabela-conhecimentos");
-    while(parent.hasChildNodes()) {
-        parent.removeChild(parent.firstChild);
-    }
-}
 
-function addStyleForDivMsg(msgToPrint,alert){
-    var msg = view.getDivMsg();
-    if(msg.classList.contains('alert-warning'))
-    msg.classList.remove('alert-warning');
-    
-    if(msg.classList.contains('alert-danger'))
-    msg.classList.remove('alert-danger');
-
-    msg.hidden =false; 
-
-    msg.textContent=msgToPrint;
-    msg.classList.add(alert);
-}
-
-
-
-    function closeModal(){
+function closeModal(){
     console.log("closing modal...");
     $("#fetchModal").modal('hide');
-    }
+}
     
-    
-  
 
-    class ByRemetenteView{
+
+  class ByRemetenteView{
     
         static _lastCnpj;
         _divMsg = document.getElementById("divAlert");
         _btnFindConhecimento = document.getElementById("btnFindConhecimentoByRemetente");
+        _tableConhecimentos = document.getElementById("tabela-conhecimentos");;
 
         getDivMsg(){
             return this._divMsg;
@@ -59,6 +40,21 @@ function addStyleForDivMsg(msgToPrint,alert){
 
         getBtnFindConhecimento(){
             return this._btnFindConhecimento;
+        }
+
+        removeAllEntriesFromTableConhecimentos(){
+            while(this._tableConhecimentos.hasChildNodes()) {
+                this._tableConhecimentos.removeChild(this._tableConhecimentos.firstChild);
+            }
+        }
+        modifyStyleAndAddForDivMsg(msgToPrint,style){
+            var lenght =  this._divMsg.classList.length;
+            var itemToRemoveFromStyle =  this._divMsg.classList.item(lenght-1);
+            this._divMsg.classList.replace(itemToRemoveFromStyle,style);
+            this._divMsg.hidden =false; 
+        
+            this._divMsg.textContent=msgToPrint;
+           
         }
 
         modifyBtnFindConhecimento(msg,style){
@@ -69,25 +65,35 @@ function addStyleForDivMsg(msgToPrint,alert){
            
             this._btnFindConhecimento.textContent  =msg;
         }
+
         findConhecimentoByRemetente(cnpj,currentPage,size){
             this.modifyBtnFindConhecimento("Procurando...",'btn-outline-info');
+            this.modifyStyleAndAddForDivMsg("Procurando por conhecimentos na API FarAway...",'alert-info');
 
+            if(currentPage == undefined){
+                currentPage=0;
+            }
+            if(size==undefined){
+                size = 12;
+            }
+            console.log(currentPage)
              var client = new XMLHttpRequest();
              client.onload = function() {
                 // in case of network errors this might not give reliable results
                 try{
                     var response = JSON.parse(client.responseText);
+                    console.log("current page of API " +response.number);
                     var view = new ByRemetenteView();
                     view.convertToObjectAndReturnMsg(client.status,response,cnpj);
                 }catch(e){
                     if(e instanceof Error){
-                        addStyleForDivMsg(e+ " client js!",'alert-danger');
+                        this.modifyStyleAndAddForDivMsg(e+ " client js!",'alert-danger');
                     }
                 }
                 
               
               }
-              client.open("GET", "https://farawaybr.com/conhecimentos/rest/findByRemetente/"+cnpj);
+              client.open("GET", "https://farawaybr.com/conhecimentos/rest/findByRemetente/"+cnpj+'?page='+currentPage+'&size='+size);
               client.send();
           
            
@@ -102,16 +108,13 @@ function addStyleForDivMsg(msgToPrint,alert){
             const cssDanger = 'alert-danger';
             
             if(status==200){
-                addStyleForDivMsg("Conhecimentos encontrados.",cssSucess );
+                this.modifyStyleAndAddForDivMsg("Conhecimentos encontrados.",cssSucess );
                 this.generateTags(response);
-                
-              
-               
             }else{
                 if(status=404){
-                    addStyleForDivMsg("Nenhum conhecimento encontrado.",cssWarning );
+                    this.modifyStyleAndAddForDivMsg("Nenhum conhecimento encontrado.",cssWarning );
                 }else{
-                    addStyleForDivMsg("Erro interno no servidor!",cssDanger );
+                    this.modifyStyleAndAddForDivMsg("Erro interno no servidor!",cssDanger );
                     
                 }
                 
