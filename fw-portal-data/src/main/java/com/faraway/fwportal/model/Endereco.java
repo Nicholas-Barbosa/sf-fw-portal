@@ -12,7 +12,8 @@ public class Endereco extends BaseEntity {
 	private String logradouro;
 	private String numero;
 	private String cep;
-
+	private String bairro;
+	private String pais;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cidade cidade;
 
@@ -20,12 +21,14 @@ public class Endereco extends BaseEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Endereco(String logradouro, String numero, String cep, Cidade cidade) {
+	public Endereco(String logradouro, String numero, String cep, Cidade cidade, String bairro, String pais) {
 		super();
 		this.logradouro = logradouro;
 		this.numero = numero;
 		this.cep = cep;
 		this.cidade = cidade;
+		this.bairro = bairro;
+		this.pais = pais;
 	}
 
 	public Endereco(Endereco endereco) {
@@ -33,6 +36,8 @@ public class Endereco extends BaseEntity {
 		this.numero = endereco.getNumero();
 		this.cep = endereco.getCep();
 		this.cidade = endereco.getCidade();
+		this.bairro = endereco.getBairro();
+		this.pais = endereco.getPais();
 	}
 
 	public String getLogradouro() {
@@ -49,5 +54,13 @@ public class Endereco extends BaseEntity {
 
 	public Cidade getCidade() {
 		return new Cidade(cidade);
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public String getPais() {
+		return pais;
 	}
 }

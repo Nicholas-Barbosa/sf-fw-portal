@@ -144,6 +144,7 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 				+ "...");
 
 		return conhecimentoRepository.findByEmissaoBetweenAndRemetenteCnpj(begin, now, cnpj, page);
+
 	}
 
 	private Optional<Conhecimento> findAndPutOnMap(String chave) {

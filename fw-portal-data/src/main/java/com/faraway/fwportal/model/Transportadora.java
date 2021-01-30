@@ -11,10 +11,13 @@ public class Transportadora extends Entidade {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Transportadora(String nome, String cnpj, Endereco endereco) {
+	public Transportadora(String nome, String cnpj, Endereco endereco, String insEstadual, String fone) {
 		finalSetNome(nome);
 		finalCnpj(cnpj);
 		finalSetEndereco(endereco);
+
+		finalSetInscEstadual(insEstadual);
+		finalSetFone(fone);
 	}
 
 	public Transportadora(Transportadora emitente) {
@@ -22,6 +25,9 @@ public class Transportadora extends Entidade {
 		finalSetNome(emitente.getNome());
 		finalCnpj(emitente.getCnpj());
 		finalSetEndereco(emitente.getEndereco());
+		finalSetInscEstadual(emitente.getInscEstadual());
+
+		finalSetFone(emitente.getFone());
 	}
 
 	private final void finalSetId(Long id) {
@@ -38,5 +44,13 @@ public class Transportadora extends Entidade {
 
 	private final void finalSetEndereco(Endereco endereco) {
 		super.setEndereco(endereco);
+	}
+
+	private final void finalSetInscEstadual(String inscEstadual) {
+		super.setInscEstadual(inscEstadual);
+	}
+
+	private final void finalSetFone(String fone) {
+		super.setFone(fone);
 	}
 }

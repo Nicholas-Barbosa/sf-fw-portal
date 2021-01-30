@@ -11,10 +11,12 @@ public class Empresa extends Entidade {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Empresa(String nome, String cnpj, Endereco endereco) {
+	public Empresa(String nome, String cnpj, Endereco endereco, String inscEstadual, String fone) {
 		finalSetNome(nome);
 		finalSetCnpj(cnpj);
 		finalSetEndereco(endereco);
+		finalSetInscEstadual(inscEstadual);
+		finalSetFone(fone);
 	}
 
 	public Empresa(Empresa empresa) {
@@ -22,6 +24,9 @@ public class Empresa extends Entidade {
 		finalSetNome(empresa.getNome());
 		finalSetCnpj(empresa.getCnpj());
 		finalSetEndereco(empresa.getEndereco());
+		finalSetInscEstadual(empresa.getInscEstadual());
+
+		finalSetFone(empresa.getFone());
 	}
 
 	private final void finalSetId(Long id) {
@@ -38,5 +43,13 @@ public class Empresa extends Entidade {
 
 	private final void finalSetEndereco(Endereco endereco) {
 		super.setEndereco(endereco);
+	}
+
+	private final void finalSetInscEstadual(String inscEstadual) {
+		super.setInscEstadual(inscEstadual);
+	}
+
+	private final void finalSetFone(String fone) {
+		super.setFone(fone);
 	}
 }

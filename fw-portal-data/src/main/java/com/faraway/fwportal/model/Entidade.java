@@ -15,6 +15,10 @@ public class Entidade extends BaseEntity {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Endereco endereco;
 
+	private String inscEstadual;
+
+	private String fone;
+
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -39,4 +43,21 @@ public class Entidade extends BaseEntity {
 		this.endereco = endereco;
 	}
 
+	public String getInscEstadual() {
+		return inscEstadual;
+	}
+
+	public void setInscEstadual(String inscEstadual) {
+		this.inscEstadual = inscEstadual;
+	}
+
+	
+
+	public String getFone() {
+		return fone;
+	}
+
+	public void setFone(String fone) {
+		this.fone = fone;
+	}
 }
