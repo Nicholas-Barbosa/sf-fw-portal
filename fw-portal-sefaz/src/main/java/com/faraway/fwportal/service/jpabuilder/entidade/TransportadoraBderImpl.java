@@ -22,7 +22,9 @@ public class TransportadoraBderImpl implements TransportadoraBder {
 		String splitted[] = object.split(",");
 		String nome = splitted[0].strip();
 		String cnpj = splitted[1].strip();
-		Transportadora transportadora = new Transportadora(nome, cnpj, endereco);
+		String inscEstadual = splitted[2].strip();
+		String fone = splitted[3].strip();
+		Transportadora transportadora = new Transportadora(nome, cnpj, endereco, inscEstadual, fone);
 		return tCrudService.save(transportadora);
 	}
 

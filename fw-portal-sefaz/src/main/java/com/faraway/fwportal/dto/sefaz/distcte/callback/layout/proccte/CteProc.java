@@ -31,6 +31,8 @@ public class CteProc {
 	@JsonProperty("protCTe")
 	private ProtCte protCte;
 
+	private String nsu;
+
 	public Cte getCte() {
 		return cte;
 	}
@@ -121,6 +123,14 @@ public class CteProc {
 
 	public Ide getInfoCte() {
 		return cte.getInfo().getIde();
+	}
+
+	public String getNsu() {
+		return nsu;
+	}
+
+	public void setNsu(String nsu) {
+		this.nsu = nsu;
 	}
 
 	@Override

@@ -13,7 +13,8 @@ import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.CteProc;
 import com.faraway.fwportal.service.gzip.AbstractGzipService;
 
 @Component
-public class CteLayoutDeserializationServiceImpl extends AbstractGzipService implements CteLayoutDeserializationService {
+public class CteLayoutDeserializationServiceImpl extends AbstractGzipService
+		implements CteLayoutDeserializationService {
 
 	private static final Logger log = LoggerFactory.getLogger(CteLayoutDeserializationServiceImpl.class);
 
@@ -25,6 +26,7 @@ public class CteLayoutDeserializationServiceImpl extends AbstractGzipService imp
 
 	@Override
 	public Set<CteProc> getCollectionOf(Collection<DocZipDto> docs) {
+		// TODO Auto-generated method stub
 		log.info("Getting ctes...");
 		return new HashSet<CteProc>(
 				docs.parallelStream().filter(evnf -> evnf.getSchema().contains("procCTe")).map(doc -> {
@@ -32,7 +34,7 @@ public class CteLayoutDeserializationServiceImpl extends AbstractGzipService imp
 					String xmlDecoded = super.decode(doc.getDocZip());
 
 					CteProc response = this.stringToObject(xmlDecoded);
-
+					response.setNsu(doc.getNsu());
 					return response;
 
 				}).collect(HashSet::new, Set::add, Set::addAll));

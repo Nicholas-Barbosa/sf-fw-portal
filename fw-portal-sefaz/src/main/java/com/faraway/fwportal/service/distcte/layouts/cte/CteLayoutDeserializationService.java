@@ -5,4 +5,5 @@ import com.faraway.fwportal.service.LayoutDeserializationService;
 
 public interface CteLayoutDeserializationService extends LayoutDeserializationService<CteProc> {
 
+	
 }

@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.faraway.fwportal.dto.ConhecimentoDto;
 import com.faraway.fwportal.exception.ObjectNotFoundException;
+import com.faraway.fwportal.internationalization.ObjRBundle;
 import com.faraway.fwportal.model.Conhecimento;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
 
@@ -42,9 +44,12 @@ public class ConhecimentoRestController {
 
 	private final ConhecimentoCrdService conhecimentoCrudService;
 
-	public ConhecimentoRestController(ConhecimentoCrdService conhecimentoCrudService) {
+	private final ObjRBundle resourceBundle;
+
+	public ConhecimentoRestController(ConhecimentoCrdService conhecimentoCrudService, ObjRBundle resourceBundle) {
 		super();
 		this.conhecimentoCrudService = conhecimentoCrudService;
+		this.resourceBundle = resourceBundle;
 	}
 
 	@ApiOperation(value = "Return an object of conhecimento, finding by: 'chave 44 digits'")
@@ -159,10 +164,17 @@ public class ConhecimentoRestController {
 	public ResponseEntity<Page<ConhecimentoDto>> findByRemetente(@PathVariable("cnpj") String cnpj,
 			@ApiIgnore("Ignored because swagger ui shows the wrong params, "
 					+ "instead they are explained in the implicit params") @PageableDefault(sort = "emissao", page = 0, size = 10, direction = Sort.Direction.DESC) Pageable currentPage) {
-		System.out.println("cnpj " + cnpj);
-		Page<Conhecimento> conhecimentos = conhecimentoCrudService.findByRemetenteThreeMonths(cnpj, currentPage);
 
-		return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new),
-				conhecimentos.getContent().size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+		try {
+			Page<Conhecimento> conhecimentos = conhecimentoCrudService.findByRemetenteThreeMonths(cnpj, currentPage);
+			return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new),
+					conhecimentos.getContent().size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			if (e instanceof PropertyReferenceException)
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+						resourceBundle.getMessage("propertyNotFound"));
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno");
+		}
+
 	}
 }

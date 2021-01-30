@@ -3,6 +3,7 @@ package com.faraway.fwportal.service.jpabuilder.conhecimento;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.CteProc;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.cte.meta.Ide;
+import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.cte.meta.fluxo.EmitenteLayout;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.cte.meta.fluxo.EnderecoLayout;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.cte.meta.imposto.Icms00;
 import com.faraway.fwportal.model.Carga;
@@ -72,11 +74,11 @@ public class ConhecimentoBderImpl implements ConhecimentoBder {
 	}
 
 	@Override
-	public Conhecimento toJpaEntity(CteProc obj) {
-		return toConhecimento(obj);
+	public Conhecimento toJpaEntity(CteProc obj, Queue<String> nsus, Queue<String> nsuNaoLidos) {
+		return toConhecimento(obj, nsus, nsuNaoLidos);
 	}
 
-	private Conhecimento toConhecimento(CteProc cte) {
+	private Conhecimento toConhecimento(CteProc cte, Queue<String> nsusLidos, Queue<String> nsuNaoLidos) {
 		log.info("Converting to conhecimento JPA entity...");
 		ExecutorService executor = null;
 		Carga carga = null;
@@ -88,14 +90,20 @@ public class ConhecimentoBderImpl implements ConhecimentoBder {
 
 			Future<Cidade> cidadeFimFuture = executor.submit(() -> getCidade(cte.getCidadeFim()));
 
-			Future<Transportadora> emitenteFuture = executor.submit(() -> getTransportadora(cte.getEmitente().getNome(),
-					cte.getEmitente().getCnpj(), cte.getEmitente().getEndereco()));
+			EmitenteLayout emitenteLayout = cte.getEmitente();
+			EnderecoLayout enderecoLayout = cte.getEmitente().getEndereco();
+
+			Future<Transportadora> emitenteFuture = executor
+					.submit(() -> getTransportadora(emitenteLayout.getNome(), emitenteLayout.getCnpj(),
+							emitenteLayout.getInscEstadual(), enderecoLayout.getFone(), emitenteLayout.getEndereco()));
 
 			Future<Empresa> remetenteFuture = executor.submit(() -> getEmpresa(cte.getRemetente().getNome(),
-					cte.getRemetente().getCnpj(), cte.getRemetente().getEndereco()));
+					cte.getRemetente().getCnpj(), cte.getRemetente().getInscEstadual(),
+					cte.getRemetente().getEndereco().getFone(), cte.getRemetente().getEndereco()));
 
 			Future<Empresa> destinatarioFuture = executor.submit(() -> getEmpresa(cte.getDestinatario().getNome(),
-					cte.getDestinatario().getCnpj(), cte.getDestinatario().getEndereco()));
+					cte.getDestinatario().getCnpj(), cte.getDestinatario().getInscEstadual(),
+					cte.getDestinatario().getEndereco().getFone(), cte.getDestinatario().getEndereco()));
 
 			Future<Set<TaxaConhecimento>> valoresFuture = executor
 					.submit(() -> cte.getValores().parallelStream().map(x -> {
@@ -107,6 +115,7 @@ public class ConhecimentoBderImpl implements ConhecimentoBder {
 
 			Future<Carga> cargaFuture = executor.submit(() -> cargaBuider.toJpaEntity(cte.getCarga()));
 
+			carga = cargaFuture.get();
 			Empresa rementente = remetenteFuture.get();
 			Empresa destinarario = destinatarioFuture.get();
 
@@ -125,14 +134,18 @@ public class ConhecimentoBderImpl implements ConhecimentoBder {
 
 			Conhecimento conhecimento = new Conhecimento(numero, serie, emissao, total, cidadeInicioFuture.get(),
 					cidadeFimFuture.get(), emitenteFuture.get(), rementente, destinarario, notasFuture.get(),
-					impostoFuture.get(), (carga = cargaFuture.get()), cte.getChave(), valoresFuture.get());
+					impostoFuture.get(), carga, cte.getChave(), valoresFuture.get());
 			conhecimento.setConhecimentoForTaxas();
 			log.info("Conhecimento successfully converted!");
-			return conhecimentoCrudService.save(conhecimento);
+			Conhecimento conhecimentoSaved = conhecimentoCrudService.save(conhecimento);
 
+			nsusLidos.add(cte.getNsu());
+
+			return conhecimentoSaved;
 		} catch (Exception e) {
-			log.info("Error while converting to conhecimento JPA entity! #" + cte.getChave(), e);
-			cargaBuider.delete(carga);
+			log.info("Error while converting to conhecimento JPA entity! #" + cte.getChave(), e.getMessage());
+			cargaBuider.deleteById(carga.getId());
+			nsuNaoLidos.add(cte.getNsu());
 			return null;
 		} finally {
 			executor.shutdown();
@@ -144,20 +157,21 @@ public class ConhecimentoBderImpl implements ConhecimentoBder {
 		return cidadeBuilder.toJpaEntity(cit);
 	}
 
-	private Empresa getEmpresa(String nome, String cnpj, EnderecoLayout en) {
-		String toSplit = nome + "," + cnpj;
+	private Empresa getEmpresa(String nome, String cnpj, String inscEstadual, String fone, EnderecoLayout en) {
+		String toSplit = nome + "," + cnpj + "," + inscEstadual + "," + fone;
 		return empresaBuilder.toJpaEntity(toSplit, getEnderecoForEntities(en));
 	}
 
-	private Transportadora getTransportadora(String nome, String cnpj, EnderecoLayout en) {
-		String toSplit = nome + "," + cnpj;
+	private Transportadora getTransportadora(String nome, String cnpj, String inscEstadual, String fone,
+			EnderecoLayout en) {
+		String toSplit = nome + "," + cnpj + "," + inscEstadual + "," + fone;
 		return transportadoraBuilder.toJpaEntity(toSplit, getEnderecoForEntities(en));
 	}
 
 	private Endereco getEnderecoForEntities(EnderecoLayout endereco) {
 		String cidadeSplit = endereco.getMunicipio() + "," + endereco.getCodigoMunicipio() + "," + endereco.getUf();
 		Endereco enderecoEnt = new Endereco(endereco.getLogradouro(), endereco.getNumero(), endereco.getCep(),
-				getCidade(cidadeSplit));
+				getCidade(cidadeSplit), endereco.getBairro(), endereco.getPais());
 		return enderecoEnt;
 	}
 
@@ -166,5 +180,11 @@ public class ConhecimentoBderImpl implements ConhecimentoBder {
 		Float porcentagemIcms = icms.getAliquotaIcms();
 		BigDecimal vIcms = new BigDecimal(icms.getValorIcms());
 		return new Imposto(baseCalculo, porcentagemIcms, vIcms);
+	}
+
+	@Override
+	public Conhecimento toJpaEntity(CteProc object) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

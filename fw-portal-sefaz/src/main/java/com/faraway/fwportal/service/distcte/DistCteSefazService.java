@@ -1,7 +1,12 @@
 package com.faraway.fwportal.service.distcte;
 
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -35,6 +40,10 @@ public class DistCteSefazService implements SefazService {
 
 	public static String currentProxyDoor;
 
+	private final Deque<String> nsuLidos = new ConcurrentLinkedDeque<>();
+
+	private final Deque<String> nsuNaoLidos = new ConcurrentLinkedDeque<>();
+
 	public DistCteSefazService(DistCteClientSefazService distCteClient, CertificadoCrdService certificadoCrudService,
 			EventLayoutDeserializationService eventLayoutDeserializationService,
 			CteLayoutDeserializationService cteLayoutDeserializationService, ConhecimentoBder conhecimentoBuilder) {
@@ -53,16 +62,18 @@ public class DistCteSefazService implements SefazService {
 			Set<DocZipDto> documentos = find(certificado);
 
 			eventLayoutDeserializationService.getCollectionOf(documentos);
+
 			Set<CteProc> cteProcs = new HashSet<>(cteLayoutDeserializationService.getCollectionOf(documentos)
 					.parallelStream()
 					.filter(cp -> !eventLayoutDeserializationService.containsCteKeyOnMapOfCancelled(cp.getChave())
 							&& cp.isntCteComplementar() && !conhecimentoBuilder.isExisting(cp.getChave()))
 					.collect(Collectors.toSet()));
 
-			long ctesLidos = cteProcs.parallelStream().map(cp -> conhecimentoBuilder.toJpaEntity(cp))
-					.filter(cp -> cp != null).collect(Collectors.counting());
-			if (ctesLidos == cteProcs.size())
-				certificadoCrudService.save(certificado);
+			long ctesLidos = cteProcs.parallelStream()
+					.map(cp -> conhecimentoBuilder.toJpaEntity(cp, nsuLidos, nsuNaoLidos)).filter(cp -> cp != null)
+					.collect(Collectors.counting());
+
+			compareNsusAndUpdateCertificadoEntityObject(certificado);
 			log.info(ctesLidos + " Conhecimentos objects read for certificate #" + certificado.getCnpj());
 		}
 	}
@@ -84,4 +95,21 @@ public class DistCteSefazService implements SefazService {
 		return docs;
 	}
 
+	private void compareNsusAndUpdateCertificadoEntityObject(Certificado certificado) {
+		System.out.println("NSU NAO LIDOS " + nsuNaoLidos);
+		System.out.println("NSU LIDOS " + nsuLidos);
+		String firstNsuNaoLido = nsuNaoLidos.peekFirst();
+		String nsuToInsert;
+		if (!nsuLidos.isEmpty()) {
+			if (!nsuNaoLidos.isEmpty()) {
+				nsuLidos.removeIf(e -> e.compareTo(firstNsuNaoLido) > 0);
+				nsuToInsert = nsuLidos.peekLast();
+			} else {
+				nsuToInsert = nsuLidos.peekLast();
+			}
+			certificado.setUltimoNsuPesquisado(nsuToInsert);
+			certificadoCrudService.save(certificado);
+		} else
+			log.info("Nenhum NSU foi lido com sucesso!");
+	}
 }

@@ -44,8 +44,8 @@ public class CargaBderImpl implements CargaBder {
 	}
 
 	@Override
-	public void delete(Carga carga) {
-		cargaCrudService.delete(carga);
+	public void deleteById(Long id) {
+		cargaCrudService.deleteById(id);
 
 	}
 

@@ -21,8 +21,9 @@ public class EmpresaBderImpl implements EmpresaBder {
 		String splitted[] = object.split(",");
 		String nome = splitted[0].strip();
 		String cnpj = splitted[1].strip();
-
-		Empresa empresa = new Empresa(nome, cnpj, endereco);
+		String inscEstadual = splitted[2].strip();
+		String fone = splitted[3].strip();
+		Empresa empresa = new Empresa(nome, cnpj, endereco, inscEstadual, fone);
 		return empresaCrudService.save(empresa);
 	}
 

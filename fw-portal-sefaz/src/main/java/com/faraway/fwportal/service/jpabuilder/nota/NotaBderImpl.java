@@ -59,26 +59,22 @@ public class NotaBderImpl implements NotaBder {
 	@Override
 	public NotaResponse findNota(String chave) {
 		log.info("Fetching nota #" + chave);
-		try {
-			String uri = "http://179.108.122.43:" + DistCteSefazService.currentProxyDoor + "/rest/FWNOTAS/" + chave;
-			HttpHeaders headers = new HttpHeaders();
 
-			// set `Content-Type` and `Accept` headers
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		String uri = "http://179.108.122.43:" + DistCteSefazService.currentProxyDoor + "/rest/FWNOTAS/" + chave;
+		HttpHeaders headers = new HttpHeaders();
 
-			HttpEntity<HttpHeaders> request = new HttpEntity<>(headers);
+		// set `Content-Type` and `Accept` headers
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-			RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		HttpEntity<HttpHeaders> request = new HttpEntity<>(headers);
 
-			NotaResponse response = restTemplate.exchange(uri, HttpMethod.GET, request, NotaResponse.class).getBody();
-			log.info("Got response for #" + chave);
-			return response;
-		} catch (Exception e) {
-			log.error("Excpetion while fetching number #" + chave, e);
-		}
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
 
-		return null;
+		NotaResponse response = restTemplate.exchange(uri, HttpMethod.GET, request, NotaResponse.class).getBody();
+		log.info("Got response for #" + chave);
+		return response;
+
 	}
 
 }

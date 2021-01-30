@@ -12,6 +12,9 @@ public class EmpresaLayout {
 	@JacksonXmlProperty(localName = "xNome")
 	private String nome;
 
+	@JacksonXmlProperty(localName = "IE")
+	private String inscEstadual;
+
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -19,7 +22,7 @@ public class EmpresaLayout {
 	public final void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -27,4 +30,13 @@ public class EmpresaLayout {
 	public final void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public String getInscEstadual() {
+		return inscEstadual;
+	}
+
+	public void setInscEstadual(String inscEstadual) {
+		this.inscEstadual = inscEstadual;
+	}
+
 }

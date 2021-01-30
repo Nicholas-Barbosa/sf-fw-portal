@@ -41,9 +41,8 @@ public class DistCteClientSefazService implements ClientSefazService {
 
 		HttpPost post = new HttpPost("https://www1.cte.fazenda.gov.br/CTeDistribuicaoDFe/CTeDistribuicaoDFe.asmx");
 
-		if (contador <= 5) {
+		if (contador < 1) {
 			contador++;
-			System.out.println("certificado " + certificado);
 			try (CloseableHttpClient httpclient = certificado.getHttpClient()) {
 
 				String cnpj = certificado.getCnpj();
@@ -78,8 +77,10 @@ public class DistCteClientSefazService implements ClientSefazService {
 				log.error("Exception!", e);
 
 			}
+
+			return null;
 		}
-		contador = 0;
+
 		return null;
 	}
 

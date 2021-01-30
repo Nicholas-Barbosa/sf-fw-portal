@@ -44,7 +44,8 @@ public class CargaSDJpaService implements CargaCrdService {
 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
+		System.out.println("delete by id!");
+		cargaRepository.deleteById(id);
 
 	}
 

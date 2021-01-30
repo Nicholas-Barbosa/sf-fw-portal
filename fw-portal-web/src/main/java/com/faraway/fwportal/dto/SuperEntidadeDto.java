@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.NON_NULL)
 public class SuperEntidadeDto {
 
-	@JsonProperty("CNPJ")
+	@JsonProperty("cnpj")
 	private String cnpj;
 
 	@JsonProperty("nome")

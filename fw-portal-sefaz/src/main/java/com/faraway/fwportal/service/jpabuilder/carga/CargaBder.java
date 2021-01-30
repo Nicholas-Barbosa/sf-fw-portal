@@ -8,5 +8,5 @@ public interface CargaBder extends JpaBuilder<Carga, String> {
 
 	Carga toJpaEntity(CargaLayout object);
 
-	void delete(Carga carga);
+	void deleteById(Long id);
 }
