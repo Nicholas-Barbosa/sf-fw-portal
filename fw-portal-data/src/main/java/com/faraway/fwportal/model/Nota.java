@@ -26,17 +26,19 @@ public class Nota extends Documento {
 
 	private String chave;
 
+	private Boolean isIncomplete;
+
 	public Nota() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public Nota(Empresa emitente, Empresa cliente, String chave, String numero, String serie, LocalDate emissao,
-			BigDecimal total) {
+			BigDecimal total, Boolean isIncomplete) {
 		super();
 		this.emitente = new Empresa(emitente);
 		this.cliente = new Empresa(cliente);
 		this.chave = chave;
-
+		this.isIncomplete = isIncomplete;
 		finalSetNumero(numero);
 		finalSetSerie(serie);
 		finalSetEmissao(emissao);
@@ -90,6 +92,10 @@ public class Nota extends Documento {
 	final private void finalSetTotal(BigDecimal total) {
 		super.setTotal(total);
 
+	}
+
+	public Boolean getIsIncomplete() {
+		return isIncomplete;
 	}
 
 	@Override
