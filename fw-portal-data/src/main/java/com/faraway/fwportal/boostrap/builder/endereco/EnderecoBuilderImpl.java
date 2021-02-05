@@ -2,11 +2,13 @@ package com.faraway.fwportal.boostrap.builder.endereco;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.cidade.CidadeBuilder;
 import com.faraway.fwportal.model.Cidade;
 import com.faraway.fwportal.model.Endereco;
 
+@Component
 public class EnderecoBuilderImpl implements EnderecoBuilder {
 
 	private static final Logger log = LoggerFactory.getLogger(EnderecoBuilderImpl.class);

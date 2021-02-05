@@ -2,9 +2,11 @@ package com.faraway.fwportal.boostrap.builder.cidade;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.model.Cidade;
 
+@Component
 public class CidadeBuilderImpl implements CidadeBuilder {
 
 	private static final Logger log = LoggerFactory.getLogger(CidadeBuilderImpl.class);
