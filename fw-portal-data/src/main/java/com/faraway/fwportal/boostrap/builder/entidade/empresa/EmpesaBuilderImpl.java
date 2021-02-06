@@ -1,5 +1,7 @@
 package com.faraway.fwportal.boostrap.builder.entidade.empresa;
 
+import java.util.Arrays;
+
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.endereco.EnderecoBuilder;
@@ -30,7 +32,8 @@ public class EmpesaBuilderImpl implements EmpresaBuilder {
 	@Override
 	public EmpresaBuilder setEndereco(Object... args) {
 		// TODO Auto-generated method stub
-		endereco = enderecoBuilder.buildObject(args);
+		Object[] cidadeProperties = Arrays.stream(args, 5, args.length).toArray();
+		endereco = enderecoBuilder.setCidade(cidadeProperties).buildObject(args);
 		return this;
 	}
 
