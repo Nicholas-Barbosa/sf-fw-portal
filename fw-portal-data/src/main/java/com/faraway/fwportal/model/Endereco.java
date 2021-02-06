@@ -63,4 +63,11 @@ public class Endereco extends BaseEntity {
 	public String getPais() {
 		return pais;
 	}
+
+	@Override
+	public String toString() {
+		return "Endereco [logradouro=" + logradouro + ", numero=" + numero + ", cep=" + cep + ", bairro=" + bairro
+				+ ", pais=" + pais + ", cidade=" + cidade + "]";
+	}
+	
 }

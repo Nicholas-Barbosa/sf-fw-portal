@@ -59,4 +59,9 @@ public class Cidade extends BaseEntity {
 		return new HashSet<>(enderecos);
 	}
 
+	@Override
+	public String toString() {
+		return "Cidade [nome=" + nome + ", uf=" + uf + ", codigoIbge=" + codigoIbge + ", enderecos=" + enderecos + "]";
+	}
+
 }

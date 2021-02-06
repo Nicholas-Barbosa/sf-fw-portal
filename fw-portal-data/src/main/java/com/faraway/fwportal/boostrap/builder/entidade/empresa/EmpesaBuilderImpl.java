@@ -7,15 +7,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.endereco.EnderecoBuilder;
-import com.faraway.fwportal.boostrap.builder.endereco.EnderecoBuilderImpl;
 import com.faraway.fwportal.model.Empresa;
 import com.faraway.fwportal.model.Endereco;
 
 @Component
 public class EmpesaBuilderImpl implements EmpresaBuilder {
+
 	private static final Logger log = LoggerFactory.getLogger(EmpesaBuilderImpl.class);
 	private final EnderecoBuilder enderecoBuilder;
 	private Endereco endereco;
+	private String nome, cnpj, inscEstadual, fone;
 
 	public EmpesaBuilderImpl(EnderecoBuilder enderecoBuilder) {
 		super();
@@ -23,13 +24,9 @@ public class EmpesaBuilderImpl implements EmpresaBuilder {
 	}
 
 	@Override
-	public Empresa buildObject(Object... args) {
+	public Empresa buildObject() {
 		// TODO Auto-generated method stub
-		log.info("Creating Empresa Object...");
-		String nome = (String) args[0];
-		String cnpj = (String) args[1];
-		String inscEstadual = (String) args[2];
-		String fone = (String) args[3];
+
 		log.info("Empresa Object has been created.");
 		return new Empresa(nome, cnpj, endereco, inscEstadual, fone);
 	}
@@ -42,8 +39,33 @@ public class EmpesaBuilderImpl implements EmpresaBuilder {
 			throw new RuntimeException("Invaid array length!");
 		}
 		Object[] cidadeProperties = Arrays.stream(args, 5, args.length).toArray();
-		endereco = enderecoBuilder.setCidade(cidadeProperties).buildObject(args);
+		endereco = enderecoBuilder.setCidade(cidadeProperties).setLogradouro("logradouro").setBairro("Bairro")
+				.setCep("CEP").setNumero("123").setPais("Brasil").buildObject();
 		log.info("Endereço has been setted!");
+		return this;
+	}
+
+	@Override
+	public EmpresaBuilder setNome(String nome) {
+		this.nome = nome;
+		return this;
+	}
+
+	@Override
+	public EmpresaBuilder setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+		return this;
+	}
+
+	@Override
+	public EmpresaBuilder setInscEstadual(String inscEstadual) {
+		this.inscEstadual = inscEstadual;
+		return this;
+	}
+
+	@Override
+	public EmpresaBuilder setFone(String fone) {
+		this.fone = fone;
 		return this;
 	}
 

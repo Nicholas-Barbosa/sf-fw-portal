@@ -45,7 +45,8 @@ public class DistCteScheduleSefazService implements ScheduleService {
 		String pais = "Brasil";
 		System.out
 				.println(empresaBuilder.setEndereco(logradouro, numero, cep, bairro, pais, "Sao Vicente", "PR", "2222")
-						.buildObject("Nome", "Cnpj", "xxx", "2121212"));
+						.setNome("Princesa dos Campos").setCnpj("129292929").setFone("+55 (41) 998227449")
+						.setInscEstadual("12121121").buildObject());
 
 	}
 

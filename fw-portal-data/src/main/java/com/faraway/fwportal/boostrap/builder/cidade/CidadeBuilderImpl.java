@@ -10,17 +10,30 @@ import com.faraway.fwportal.model.Cidade;
 public class CidadeBuilderImpl implements CidadeBuilder {
 
 	private static final Logger log = LoggerFactory.getLogger(CidadeBuilderImpl.class);
+	private String nome, uf, codigoIbge;
 
 	@Override
-	public Cidade buildObject(Object... args) {
+	public Cidade buildObject() {
 		log.info("Creating Cidade Object...");
-		if (args.length < 3) {
-			throw new IllegalArgumentException("Invalid array length.");
-		}
-		String nome = ((String) args[0]);
-		String uf = ((String) args[1]);
-		String codigoIbge = ((String) args[2]);
-		log.info("Cidade Object has been created!");
 		return new Cidade(nome, uf, codigoIbge);
+	}
+
+	@Override
+	public CidadeBuilder setNome(String nome) {
+		this.nome = nome;
+
+		return this;
+	}
+
+	@Override
+	public CidadeBuilder setUf(String uf) {
+		this.uf = uf;
+		return this;
+	}
+
+	@Override
+	public CidadeBuilder setCodigoIbge(String codigo) {
+		this.codigoIbge = codigo;
+		return this;
 	}
 }
