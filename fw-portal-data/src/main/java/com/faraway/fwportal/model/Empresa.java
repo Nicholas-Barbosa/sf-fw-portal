@@ -52,4 +52,5 @@ public class Empresa extends Entidade {
 	private final void finalSetFone(String fone) {
 		super.setFone(fone);
 	}
+
 }

@@ -1,6 +1,5 @@
 package com.faraway.fwportal.scheduler;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.faraway.fwportal.boostrap.builder.entidade.empresa.EmpresaBuilder;
 import com.faraway.fwportal.service.SefazService;
 import com.faraway.fwportal.time.TimeHandler;
 
@@ -19,9 +19,12 @@ public class DistCteScheduleSefazService implements ScheduleService {
 
 	private final SefazService distCteService;
 
-	public DistCteScheduleSefazService(SefazService distCteService) {
+	private final EmpresaBuilder empresaBuilder;
+
+	public DistCteScheduleSefazService(SefazService distCteService, EmpresaBuilder empresaBuilder) {
 		super();
 		this.distCteService = distCteService;
+		this.empresaBuilder = empresaBuilder;
 	}
 
 	/*
@@ -34,7 +37,16 @@ public class DistCteScheduleSefazService implements ScheduleService {
 	public void executeTask() {
 		log.info("Thread started to read conhecimentos! " + DateTimeFormatter
 				.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).format(TimeHandler.getLocalDateTime()));
-		distCteService.findAndSave();
+		// distCteService.findAndSave();
+		String logradouro = "Cidade do Guaruja";
+		String numero = "124";
+		String cep = "12121221";
+		String bairro = "Vila Cascatinha";
+		String pais = "Brasil";
+		System.out
+				.println(empresaBuilder.setEndereco(logradouro, numero, cep, bairro, pais, "Sao Vicente", "PR", "2222")
+						.buildObject("Nome", "Cnpj", "xxx", "2121212"));
+
 	}
 
 }

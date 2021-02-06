@@ -16,10 +16,9 @@ public class EnderecoBuilderImpl implements EnderecoBuilder {
 	private final CidadeBuilder cidadeBuilder;
 	private Cidade cidade;
 
-	public EnderecoBuilderImpl(CidadeBuilder cidadeBuilder, Cidade cidade) {
+	public EnderecoBuilderImpl(CidadeBuilder cidadeBuilder) {
 		super();
 		this.cidadeBuilder = cidadeBuilder;
-		this.cidade = cidade;
 	}
 
 	@Override

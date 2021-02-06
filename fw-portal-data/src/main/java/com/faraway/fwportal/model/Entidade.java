@@ -60,4 +60,11 @@ public class Entidade extends BaseEntity {
 	public void setFone(String fone) {
 		this.fone = fone;
 	}
+
+	@Override
+	public String toString() {
+		return "Entidade [cnpj=" + cnpj + ", nome=" + nome + ", endereco=" + endereco + ", inscEstadual=" + inscEstadual
+				+ ", fone=" + fone + "]";
+	}
+	
 }
