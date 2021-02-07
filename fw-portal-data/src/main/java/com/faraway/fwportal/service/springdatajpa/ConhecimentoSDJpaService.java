@@ -26,7 +26,6 @@ import com.faraway.fwportal.service.ConhecimentoCrdService;
 import com.faraway.fwportal.time.TimeHandler;
 
 @Service
-@Transactional
 public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 
 	private final ConhecimentoRepository conhecimentoRepository;
