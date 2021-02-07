@@ -39,8 +39,9 @@ public class EmpesaBuilderImpl implements EmpresaBuilder {
 			throw new RuntimeException("Invaid array length!");
 		}
 		Object[] cidadeProperties = Arrays.stream(args, 5, args.length).toArray();
-		endereco = enderecoBuilder.setCidade(cidadeProperties).setLogradouro("logradouro").setBairro("Bairro")
-				.setCep("CEP").setNumero("123").setPais("Brasil").buildObject();
+		endereco = enderecoBuilder.setCidade(cidadeProperties).setLogradouro((String) args[0])
+				.setBairro((String) args[1]).setCep((String) args[2]).setNumero((String) args[3])
+				.setPais((String) args[4]).buildObject();
 		log.info("Endereço has been setted!");
 		return this;
 	}

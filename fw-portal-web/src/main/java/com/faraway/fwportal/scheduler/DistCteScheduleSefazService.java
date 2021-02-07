@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.faraway.fwportal.boostrap.builder.entidade.empresa.EmpresaBuilder;
+import com.faraway.fwportal.boostrap.builder.entidade.transportadora.TransportadoraBuilder;
 import com.faraway.fwportal.service.SefazService;
 import com.faraway.fwportal.time.TimeHandler;
 
@@ -19,9 +19,9 @@ public class DistCteScheduleSefazService implements ScheduleService {
 
 	private final SefazService distCteService;
 
-	private final EmpresaBuilder empresaBuilder;
+	private final TransportadoraBuilder empresaBuilder;
 
-	public DistCteScheduleSefazService(SefazService distCteService, EmpresaBuilder empresaBuilder) {
+	public DistCteScheduleSefazService(SefazService distCteService, TransportadoraBuilder empresaBuilder) {
 		super();
 		this.distCteService = distCteService;
 		this.empresaBuilder = empresaBuilder;
