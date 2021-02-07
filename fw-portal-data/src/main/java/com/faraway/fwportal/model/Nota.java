@@ -19,7 +19,7 @@ public class Nota extends Documento {
 	private Empresa emitente;
 
 	@ManyToOne
-	private Empresa cliente;
+	private Empresa destinatario;
 
 	@ManyToMany(cascade = CascadeType.REMOVE, mappedBy = "notas")
 	private Set<Conhecimento> conhecimentos;
@@ -32,11 +32,11 @@ public class Nota extends Documento {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Nota(Empresa emitente, Empresa cliente, String chave, String numero, String serie, LocalDate emissao,
+	public Nota(Empresa emitente, Empresa destinatario, String chave, String numero, String serie, LocalDate emissao,
 			BigDecimal total, Boolean isIncomplete) {
 		super();
 		this.emitente = new Empresa(emitente);
-		this.cliente = new Empresa(cliente);
+		this.destinatario = new Empresa(destinatario);
 		this.chave = chave;
 		this.isIncomplete = isIncomplete;
 		finalSetNumero(numero);
@@ -47,7 +47,7 @@ public class Nota extends Documento {
 
 	public Nota(Nota nota) {
 		this.emitente = nota.getEmitente();
-		this.cliente = nota.getCliente();
+		this.destinatario = nota.getDestinatario();
 		this.chave = nota.getChave();
 
 		finalSetId(nota.getId());
@@ -61,8 +61,8 @@ public class Nota extends Documento {
 		return new Empresa(emitente);
 	}
 
-	public Empresa getCliente() {
-		return new Empresa(cliente);
+	public Empresa getDestinatario() {
+		return new Empresa(destinatario);
 	}
 
 	public Set<Conhecimento> getConhecimentos() {
