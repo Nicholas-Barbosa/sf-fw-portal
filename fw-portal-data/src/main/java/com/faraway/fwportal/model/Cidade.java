@@ -61,7 +61,7 @@ public class Cidade extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "Cidade [nome=" + nome + ", uf=" + uf + ", codigoIbge=" + codigoIbge + ", enderecos=" + enderecos + "]";
+		return "Cidade [nome=" + nome + ", uf=" + uf + ", codigoIbge=" + codigoIbge;
 	}
 
 }
