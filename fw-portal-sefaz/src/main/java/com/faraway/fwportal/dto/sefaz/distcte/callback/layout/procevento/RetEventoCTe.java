@@ -9,8 +9,22 @@ public class RetEventoCTe {
 	@JsonProperty("infEvento")
 	private InfEvento infoEvento;
 
+	public RetEventoCTe() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public RetEventoCTe(InfEvento infoEvento) {
+		super();
+		this.infoEvento = infoEvento;
+	}
+	
+	public RetEventoCTe(RetEventoCTe retEvento) {
+		super();
+		this.infoEvento = retEvento.getInfoEvento();
+	}
+
 	public InfEvento getInfoEvento() {
-		return infoEvento;
+		return new InfEvento(infoEvento);
 	}
 
 	@Override

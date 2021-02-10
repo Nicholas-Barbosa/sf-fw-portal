@@ -4,11 +4,11 @@ import com.faraway.fwportal.model.Certificado;
 
 public interface ClientSefazService {
 
-	void setCertficado(Certificado certficado);
+	ClientSefazService setCertficado(Certificado certficado);
 
-	void setNsu(String nsu);
+	ClientSefazService setNsu(String nsu);
 
-	<U>U execute();
+	<U> U execute();
 
 	String soapEnvelope(String xml);
 

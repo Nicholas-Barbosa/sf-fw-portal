@@ -14,6 +14,22 @@ public class InfEvento {
 	@JsonProperty("xEvento")
 	private String evento;
 
+	public InfEvento() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public InfEvento(String chaveCte, String tpEvento) {
+		super();
+		this.chaveCte = chaveCte;
+		this.tpEvento = tpEvento;
+	}
+
+	public InfEvento(InfEvento infoEevento) {
+		this.chaveCte = infoEevento.getChaveCte();
+		this.tpEvento = infoEevento.getTpEvento();
+		this.evento = infoEevento.getEvento();
+	}
+
 	public String getChaveCte() {
 		return chaveCte;
 	}

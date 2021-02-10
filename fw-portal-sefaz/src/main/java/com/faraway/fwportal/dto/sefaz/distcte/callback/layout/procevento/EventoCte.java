@@ -11,6 +11,15 @@ public class EventoCte {
 	@JsonProperty("retEventoCTe")
 	private RetEventoCTe evento;
 
+	public EventoCte() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public EventoCte(RetEventoCTe evento) {
+		super();
+		this.evento = evento;
+	}
+
 	public RetEventoCTe getEvento() {
 		return evento;
 	}

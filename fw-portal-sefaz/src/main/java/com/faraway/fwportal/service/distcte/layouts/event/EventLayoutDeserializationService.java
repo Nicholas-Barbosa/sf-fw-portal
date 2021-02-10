@@ -5,6 +5,4 @@ import com.faraway.fwportal.service.LayoutDeserializationService;
 
 public interface EventLayoutDeserializationService extends LayoutDeserializationService<EventoCte> {
 
-	public boolean containsCteKeyOnMapOfCancelled(String key);
-
 }

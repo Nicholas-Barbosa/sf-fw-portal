@@ -24,13 +24,15 @@ public class DistCteClientSefazService implements ClientSefazService {
 	private Certificado certificado;
 
 	@Override
-	public void setCertficado(Certificado certficado) {
+	public DistCteClientSefazService setCertficado(Certificado certficado) {
 		this.certificado = certficado;
+		return this;
 	}
 
 	@Override
-	public void setNsu(String nsu) {
+	public DistCteClientSefazService setNsu(String nsu) {
 		certificado.setUltimoNsuPesquisado(nsu);
+		return this;
 	}
 
 	public static int contador = 0;
