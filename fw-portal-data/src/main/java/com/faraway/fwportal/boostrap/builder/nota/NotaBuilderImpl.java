@@ -21,13 +21,13 @@ public class NotaBuilderImpl implements NotaBuilder {
 	}
 
 	@Override
-	public NotaBuilder setEmitente(Object...args) {
+	public NotaBuilder setEmitente(Object... args) {
 		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
-	public NotaBuilder setDestinatario(Object...args) {
+	public NotaBuilder setDestinatario(Object... args) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -66,6 +66,18 @@ public class NotaBuilderImpl implements NotaBuilder {
 	public NotaBuilder setConhecimentos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public NotaBuilder setEmitente(Empresa args) {
+		this.emitente = new Empresa(args);
+		return this;
+	}
+
+	@Override
+	public NotaBuilder setDestinatario(Empresa args) {
+		this.destinatario = new Empresa(args);
+		return this;
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.faraway.fwportal.boostrap.dataloader.cidade;
 
-import com.faraway.fwportal.boostrap.builder.cidade.CidadeBuilder;
 import com.faraway.fwportal.boostrap.dataloader.DataLoader;
 import com.faraway.fwportal.model.Cidade;
 

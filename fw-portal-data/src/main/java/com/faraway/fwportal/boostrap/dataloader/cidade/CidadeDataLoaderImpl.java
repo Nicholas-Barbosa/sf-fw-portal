@@ -22,19 +22,19 @@ public class CidadeDataLoaderImpl implements CidadeDataLoader {
 	}
 
 	@Override
-	public CidadeDataLoaderImpl setNome(String nome) {
+	public CidadeDataLoader setNome(String nome) {
 		this.cidadeBuilder.setNome(nome);
 		return this;
 	}
 
 	@Override
-	public CidadeDataLoaderImpl setUf(String uf) {
+	public CidadeDataLoader setUf(String uf) {
 		this.cidadeBuilder.setUf(uf);
 		return this;
 	}
 
 	@Override
-	public CidadeDataLoaderImpl setCodigoIbge(String codigo) {
+	public CidadeDataLoader setCodigoIbge(String codigo) {
 		this.cidadeBuilder.setCodigoIbge(codigo);
 		return this;
 	}
