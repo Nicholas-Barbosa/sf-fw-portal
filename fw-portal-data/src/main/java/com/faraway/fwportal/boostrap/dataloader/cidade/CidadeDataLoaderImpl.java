@@ -1,9 +1,12 @@
 package com.faraway.fwportal.boostrap.dataloader.cidade;
 
+import org.springframework.stereotype.Component;
+
 import com.faraway.fwportal.boostrap.builder.cidade.CidadeBuilder;
 import com.faraway.fwportal.model.Cidade;
 import com.faraway.fwportal.service.CidadeCrdService;
 
+@Component
 public class CidadeDataLoaderImpl implements CidadeDataLoader {
 
 	private final CidadeBuilder cidadeBuilder;
