@@ -70,4 +70,10 @@ public class EmpesaBuilderImpl implements EmpresaBuilder {
 		return this;
 	}
 
+	@Override
+	public EmpresaBuilder setEndereco(Endereco endereco) {
+		endereco = new Endereco(endereco);
+		return this;
+	}
+
 }

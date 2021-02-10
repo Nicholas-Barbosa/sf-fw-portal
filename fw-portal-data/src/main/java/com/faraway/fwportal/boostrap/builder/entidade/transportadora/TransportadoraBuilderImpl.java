@@ -67,4 +67,10 @@ public class TransportadoraBuilderImpl implements TransportadoraBuilder {
 		return this;
 	}
 
+	@Override
+	public TransportadoraBuilder setEndereco(Endereco endereco) {
+		endereco = new Endereco(endereco);
+		return this;
+	}
+
 }
