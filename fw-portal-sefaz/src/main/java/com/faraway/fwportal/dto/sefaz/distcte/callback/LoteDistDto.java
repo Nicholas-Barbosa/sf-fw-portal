@@ -14,9 +14,9 @@ public class LoteDistDto {
 
 	@JacksonXmlProperty(localName = "docZip")
 	@JacksonXmlElementWrapper(useWrapping = false)
-	private List<DocZipDto> doc;
+	private List<DocumentosZipDto> doc;
 
-	public List<DocZipDto> getDoc() {
+	public List<DocumentosZipDto> getDoc() {
 		return doc;
 	}
 

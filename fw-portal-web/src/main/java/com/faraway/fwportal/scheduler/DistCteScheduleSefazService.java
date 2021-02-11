@@ -37,16 +37,7 @@ public class DistCteScheduleSefazService implements ScheduleService {
 	public void executeTask() {
 		log.info("Thread started to read conhecimentos! " + DateTimeFormatter
 				.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).format(TimeHandler.getLocalDateTime()));
-		// distCteService.findAndSave();
-		String logradouro = "Cidade do Guaruja";
-		String numero = "124";
-		String cep = "12121221";
-		String bairro = "Vila Cascatinha";
-		String pais = "Brasil";
-		System.out
-				.println(empresaBuilder.setEndereco(logradouro, numero, cep, bairro, pais, "Sao Vicente", "PR", "2222")
-						.setNome("Princesa dos Campos").setCnpj("129292929").setFone("+55 (41) 998227449")
-						.setInscEstadual("12121121").buildObject());
+		distCteService.findAndSave();
 
 	}
 

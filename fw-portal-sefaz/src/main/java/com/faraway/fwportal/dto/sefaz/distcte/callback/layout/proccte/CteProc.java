@@ -71,14 +71,14 @@ public class CteProc {
 		return protCte.getInfoProt().getChaveCte().strip();
 	}
 
-	public String getCidadeInicio() {
-		return cte.getInfo().getIde().getMunicipioInicio() + ", " + cte.getInfo().getIde().getMunicipioCodigo() + ", "
-				+ cte.getInfo().getIde().getUfInicio();
+	public String[] getCidadeInArrayWithNomeAndCodigoAndUf() {
+		return new String[] { cte.getInfo().getIde().getMunicipioInicio(), cte.getInfo().getIde().getMunicipioCodigo(),
+				cte.getInfo().getIde().getUfInicio() };
 	}
 
-	public String getCidadeFim() {
-		return cte.getInfo().getIde().getMunicipioFim() + ", " + cte.getInfo().getIde().getMunicipioFimCodigo() + ", "
-				+ cte.getInfo().getIde().getUfFim();
+	public String[] getCidadeDestinoInArrayWithNomeAndCodigoAndUf() {
+		return new String[] { cte.getInfo().getIde().getMunicipioFim(), cte.getInfo().getIde().getMunicipioFimCodigo(),
+				cte.getInfo().getIde().getUfFim() };
 	}
 
 	public BigDecimal getTotal() {

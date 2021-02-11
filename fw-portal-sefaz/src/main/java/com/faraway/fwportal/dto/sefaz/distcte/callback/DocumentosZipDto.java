@@ -7,7 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JacksonXmlRootElement(localName = "docZip")
-public class DocZipDto {
+public class DocumentosZipDto {
 
 	@JacksonXmlProperty(localName = "schema", isAttribute = true)
 	private String schema;

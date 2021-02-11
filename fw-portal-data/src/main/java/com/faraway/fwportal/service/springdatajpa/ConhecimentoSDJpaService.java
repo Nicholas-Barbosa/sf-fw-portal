@@ -78,6 +78,7 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 	@Override
 	public synchronized boolean existsKeyOnMap(String key) {
 		if (map.isEmpty()) {
+			System.out.println("Conhecimento map vazio!");
 			map.putAll(this.findAll().stream().map(Conhecimento::new)
 					.collect(Collectors.toConcurrentMap(k -> k.getChave(), v -> v)));
 

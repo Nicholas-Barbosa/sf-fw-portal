@@ -57,7 +57,6 @@ public class CidadeSDJpaService implements CidadeCrdService {
 	@Override
 	public synchronized boolean existsKeyOnMap(String key) {
 		if (map.isEmpty()) {
-			System.out.println("map cidade vazia");
 			map.putAll(findAll().parallelStream().collect(Collectors.toConcurrentMap(k -> k.getCodigoIbge(), v -> v)));
 		}
 		return map.containsKey(key);

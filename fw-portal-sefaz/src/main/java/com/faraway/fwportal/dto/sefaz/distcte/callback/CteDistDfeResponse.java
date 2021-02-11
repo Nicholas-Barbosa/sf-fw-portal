@@ -11,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @JacksonXmlRootElement(localName = "retDistDFeInt", namespace = "http://www.portalfiscal.inf.br/cte")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CallBackCte {
+public class CteDistDfeResponse {
 
 	@JacksonXmlProperty(localName = "ultNSU", namespace = "http://www.portalfiscal.inf.br/cte")
 	private String ultimoNsu;
@@ -48,10 +48,10 @@ public class CallBackCte {
 		return motivo;
 	}
 
-	public CallBackCte toDeserialize(String response) throws JsonMappingException, JsonProcessingException {
+	public CteDistDfeResponse toDeserialize(String response) throws JsonMappingException, JsonProcessingException {
 		response = replaceTags(response).stripTrailing();
 		XmlMapper xmlMapper = new XmlMapper();
-		CallBackCte value = xmlMapper.readValue(response, CallBackCte.class);
+		CteDistDfeResponse value = xmlMapper.readValue(response, CteDistDfeResponse.class);
 		return value;
 	}
 
@@ -74,7 +74,7 @@ public class CallBackCte {
 				+ status + ", motivo=" + motivo + "]";
 	}
 	
-	public List<DocZipDto> getLotesSchemas() {
+	public List<DocumentosZipDto> getDocumentos() {
 		return this.getLotes().getDoc();
 	}
 
@@ -94,7 +94,7 @@ public class CallBackCte {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CallBackCte other = (CallBackCte) obj;
+		CteDistDfeResponse other = (CteDistDfeResponse) obj;
 		if (ultimoNsu == null) {
 			if (other.ultimoNsu != null)
 				return false;

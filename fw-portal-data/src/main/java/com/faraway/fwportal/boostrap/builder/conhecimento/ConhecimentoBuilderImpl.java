@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.model.Carga;
 import com.faraway.fwportal.model.Cidade;
@@ -17,6 +18,7 @@ import com.faraway.fwportal.model.Nota;
 import com.faraway.fwportal.model.TaxaConhecimento;
 import com.faraway.fwportal.model.Transportadora;
 
+@Component
 public class ConhecimentoBuilderImpl implements ConhecimentoBuilder {
 
 	private static final Logger log = LoggerFactory.getLogger(ConhecimentoBuilderImpl.class);

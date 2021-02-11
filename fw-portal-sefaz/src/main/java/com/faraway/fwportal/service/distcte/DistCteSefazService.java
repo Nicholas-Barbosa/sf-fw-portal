@@ -2,61 +2,49 @@ package com.faraway.fwportal.service.distcte;
 
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.dto.sefaz.distcte.callback.CallBackCte;
-import com.faraway.fwportal.dto.sefaz.distcte.callback.DocZipDto;
-import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.CteProc;
-import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.procevento.EventoCte;
-import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.procevento.InfEvento;
-import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.procevento.RetEventoCTe;
+import com.faraway.fwportal.brokerdataloader.conhecimento.ConhecimentoBrokerDataLoader;
+import com.faraway.fwportal.dto.sefaz.distcte.callback.CteDistDfeResponse;
+import com.faraway.fwportal.dto.sefaz.distcte.callback.DocumentosZipDto;
 import com.faraway.fwportal.model.Certificado;
 import com.faraway.fwportal.service.CertificadoCrdService;
 import com.faraway.fwportal.service.ClientSefazService;
 import com.faraway.fwportal.service.SefazService;
-import com.faraway.fwportal.service.distcte.layouts.cte.CteLayoutDeserializationService;
-import com.faraway.fwportal.service.distcte.layouts.event.EventLayoutDeserializationService;
-import com.faraway.fwportal.service.jpabuilder.conhecimento.ConhecimentoBder;
+import com.faraway.fwportal.service.distcte.deserlayouts.cte.CteProcDeserializador;
 
 @Service
 public class DistCteSefazService implements SefazService {
+
+	private static final Logger log = LoggerFactory.getLogger(DistCteClientSefazService.class);
 
 	private final ClientSefazService clientSefazService;
 
 	private final CertificadoCrdService certificadoCrudService;
 
-	private static final Logger log = LoggerFactory.getLogger(DistCteClientSefazService.class);
-
-	private final EventLayoutDeserializationService eventLayoutDeserializationService;
-
-	private final CteLayoutDeserializationService cteLayoutDeserializationService;
-
-	private final ConhecimentoBder conhecimentoBuilder;
-
 	public static String currentProxyDoor;
+
+	private final CteProcDeserializador procDeserializador;
+
+	private final ConhecimentoBrokerDataLoader conhecimentoBrokerDataLoader;
 
 	private final Deque<String> nsuLidos = new ConcurrentLinkedDeque<>();
 
 	private final Deque<String> nsuNaoLidos = new ConcurrentLinkedDeque<>();
 
 	public DistCteSefazService(ClientSefazService clientSefazService, CertificadoCrdService certificadoCrudService,
-			EventLayoutDeserializationService eventLayoutDeserializationService,
-			CteLayoutDeserializationService cteLayoutDeserializationService, ConhecimentoBder conhecimentoBuilder) {
+			CteProcDeserializador procDeserializador, ConhecimentoBrokerDataLoader conhecimentoBrokerDataLoader) {
 		super();
 		this.clientSefazService = clientSefazService;
 		this.certificadoCrudService = certificadoCrudService;
-		this.eventLayoutDeserializationService = eventLayoutDeserializationService;
-		this.cteLayoutDeserializationService = cteLayoutDeserializationService;
-		this.conhecimentoBuilder = conhecimentoBuilder;
+		this.procDeserializador = procDeserializador;
+		this.conhecimentoBrokerDataLoader = conhecimentoBrokerDataLoader;
 	}
 
 	@Override
@@ -64,38 +52,34 @@ public class DistCteSefazService implements SefazService {
 		for (Certificado certificado : certificadoCrudService.findAll()) {
 			log.info("Getting cte documents for certificate #" + certificado.getCnpj());
 
-			Set<DocZipDto> documentos = find(certificado).parallelStream().map(callBack -> callBack.getLotesSchemas())
-					.flatMap(ls -> ls.stream()).collect(Collectors.toSet());
+			Set<DocumentosZipDto> documentos = find(certificado).parallelStream()
+					.map(callBack -> callBack.getDocumentos()).flatMap(ls -> ls.stream()).collect(Collectors.toSet());
 
-			Map<Boolean, List<EventoCte>> cteCancelados = eventLayoutDeserializationService.getCollectionOf(documentos)
-					.stream().collect(Collectors.partitioningBy(x -> x.getStatus().equals("110181")));
+			procDeserializador.deserializaProcs(documentos).parallelStream()
+					.map(procCte -> conhecimentoBrokerDataLoader.brokerLoad(procCte)).collect(Collectors.counting());
 
-			Predicate<CteProc> predVerificaSeObjectEstaCancelado = cp -> !cteCancelados.get(true)
-					.contains(new EventoCte(new RetEventoCTe(new InfEvento(cp.getChave(), "110181"))));
+			// Predicate<CteProc> predVerificaSeCteEComplementar = cp ->
+			// cp.isntCteComplementar();
+//
+//			Set<CteProc> cteProcs = new HashSet<>(cteLayoutDeserializationService.getCollectionOf(documentos)
+//					.parallelStream().filter(predVerificaSeObjectEstaCancelado.and(predVerificaSeCteEComplementar))
+//					.collect(Collectors.toSet()));
+//
+//			long ctesLidos = cteProcs.parallelStream()
+//					.map(cp -> conhecimentoBuilder.toJpaEntity(cp, nsuLidos, nsuNaoLidos)).filter(cp -> cp != null)
+//					.collect(Collectors.counting());
 
-			Predicate<CteProc> predVerificaSeCteEComplementar = cp -> cp.isntCteComplementar();
-
-			Predicate<CteProc> predVerificaSeCteExiste = cp -> !conhecimentoBuilder.isExisting(cp.getChave());
-
-			Set<CteProc> cteProcs = new HashSet<>(cteLayoutDeserializationService
-					.getCollectionOf(documentos).parallelStream().filter(predVerificaSeObjectEstaCancelado
-							.and(predVerificaSeCteEComplementar).and(predVerificaSeCteExiste))
-					.collect(Collectors.toSet()));
-
-			long ctesLidos = cteProcs.parallelStream()
-					.map(cp -> conhecimentoBuilder.toJpaEntity(cp, nsuLidos, nsuNaoLidos)).filter(cp -> cp != null)
-					.collect(Collectors.counting());
-
-			compareNsusAndUpdateCertificadoEntityObject(certificado);
-			log.info(ctesLidos + " Conhecimentos objects read for certificate #" + certificado.getCnpj());
+			// compareNsusAndUpdateCertificadoEntityObject(certificado);
+			// log.info(ctesLidos + " Conhecimentos objects read for certificate #" +
+			// certificado.getCnpj());
 		}
 	}
 
 	@Override
-	public Set<CallBackCte> find(Certificado certificado) {
-		Set<CallBackCte> responses = new HashSet<>();
+	public Set<CteDistDfeResponse> find(Certificado certificado) {
+		Set<CteDistDfeResponse> responses = new HashSet<>();
 		clientSefazService.setCertficado(certificado);
-		CallBackCte callBack;
+		CteDistDfeResponse callBack;
 		currentProxyDoor = certificado.getPorta().getPorta();
 		while ((callBack = clientSefazService.setNsu(certificado.getUltimoNsuPesquisado()).execute()) != null) {
 			responses.add(callBack);

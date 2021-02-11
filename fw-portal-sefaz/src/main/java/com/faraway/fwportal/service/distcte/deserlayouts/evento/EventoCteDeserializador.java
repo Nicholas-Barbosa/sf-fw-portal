@@ -1,4 +1,4 @@
-package com.faraway.fwportal.service.distcte.layouts.event;
+package com.faraway.fwportal.service.distcte.deserlayouts.evento;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,24 +8,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.faraway.fwportal.dto.sefaz.distcte.callback.DocZipDto;
+import com.faraway.fwportal.dto.sefaz.distcte.callback.DocumentosZipDto;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.procevento.EventoCte;
 import com.faraway.fwportal.service.gzip.AbstractGzipService;
 
 @Component
-public class EventLayoutDeserializationServiceImpl extends AbstractGzipService
-		implements EventLayoutDeserializationService {
+public class EventoCteDeserializador extends AbstractGzipService {
 
-	private static final Logger log = LoggerFactory.getLogger(EventLayoutDeserializationServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(EventoCteDeserializador.class);
 
-	@Override
 	public EventoCte stringToObject(String st) {
 		log.info("Deserializing event xml...");
 		return EventoCte.deserializeString(st);
 	}
 
-	@Override
-	public Set<EventoCte> getCollectionOf(Collection<DocZipDto> docs) {
+	public Set<EventoCte> deserializaEventos(Collection<DocumentosZipDto> docs) {
 		// TODO Auto-generated method stub
 		log.info("getting cte events...");
 		return new HashSet<EventoCte>(

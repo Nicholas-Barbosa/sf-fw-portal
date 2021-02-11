@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
 import com.faraway.fwportal.boostrap.builder.conhecimento.ConhecimentoBuilder;
 import com.faraway.fwportal.model.Carga;
 import com.faraway.fwportal.model.Cidade;
@@ -17,6 +19,7 @@ import com.faraway.fwportal.model.TaxaConhecimento;
 import com.faraway.fwportal.model.Transportadora;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
 
+@Component
 public class ConhecimentoDataLoaderImpl implements ConhecimentoDataLoader {
 
 	private final ConhecimentoBuilder conhecimentoBuilder;

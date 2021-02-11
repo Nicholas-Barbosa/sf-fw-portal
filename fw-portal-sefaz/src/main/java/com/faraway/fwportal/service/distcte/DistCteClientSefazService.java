@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.dto.sefaz.distcte.callback.CallBackCte;
+import com.faraway.fwportal.dto.sefaz.distcte.callback.CteDistDfeResponse;
 import com.faraway.fwportal.dto.sefaz.distcte.request.DistNsu;
 import com.faraway.fwportal.dto.sefaz.distcte.request.RequestCte;
 import com.faraway.fwportal.model.Certificado;
@@ -39,7 +39,7 @@ public class DistCteClientSefazService implements ClientSefazService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public CallBackCte execute() {
+	public CteDistDfeResponse execute() {
 
 		HttpPost post = new HttpPost("https://www1.cte.fazenda.gov.br/CTeDistribuicaoDFe/CTeDistribuicaoDFe.asmx");
 
@@ -63,7 +63,7 @@ public class DistCteClientSefazService implements ClientSefazService {
 
 				HttpEntity entity = httpresponse.getEntity();
 
-				CallBackCte callBackCte = new CallBackCte().toDeserialize(EntityUtils.toString(entity));
+				CteDistDfeResponse callBackCte = new CteDistDfeResponse().toDeserialize(EntityUtils.toString(entity));
 				if (callBackCte.getStatus() != 138) {
 					log.info("Fim da consulta, motivo " + callBackCte.getMotivo());
 					return null;

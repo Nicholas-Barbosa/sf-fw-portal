@@ -67,7 +67,6 @@ public class NotaDataLoaderImpl implements NotaDataLoader {
 	@Override
 	public NotaDataLoader setTotal(BigDecimal total) {
 		this.notaBuilder.setTotal(total);
-
 		return this;
 	}
 

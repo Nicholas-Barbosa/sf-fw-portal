@@ -14,7 +14,7 @@ public class CidadeBuilderImpl implements CidadeBuilder {
 
 	@Override
 	public Cidade buildObject() {
-		log.info("Creating Cidade Object...");
+		log.info("Cidade Object has been created!");
 		return new Cidade(nome, uf, codigoIbge);
 	}
 

@@ -3,9 +3,12 @@ package com.faraway.fwportal.boostrap.builder.nota;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.faraway.fwportal.model.Empresa;
 import com.faraway.fwportal.model.Nota;
 
+@Component
 public class NotaBuilderImpl implements NotaBuilder {
 
 	private Empresa emitente, destinatario;

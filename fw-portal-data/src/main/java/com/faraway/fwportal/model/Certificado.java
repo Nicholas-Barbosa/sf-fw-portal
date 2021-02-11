@@ -64,13 +64,12 @@ public final class Certificado extends BaseEntity {
 	}
 
 	@PropertySource({ "classpath:jks.properties" })
-	private final class Ssl{
+	private final class Ssl {
 
 		@Value("${jks.path}")
 		private String jksPath;
 
-		private final Path keyStorePath = Path
-				.of("C:\\Users\\Nicholas Henrique\\Documents\\keystore\\server-keystore.jks");
+		private final Path keyStorePath = Path.of("C:\\Users\\Administrador\\Documents\\server-keystore.jks");
 		// .of("/home/ph161169/farawaybr.com/keystore/server-keystore.jks");
 
 		private char[] keyStore = "server-keystore-p455w0rd".toCharArray();
@@ -91,8 +90,7 @@ public final class Certificado extends BaseEntity {
 
 				KeyStore clientStore = KeyStore.getInstance("PKCS12");
 				clientStore.load(bufferedCertifi, Certificado.this.senha);
-				
-				
+
 				KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
 				kmf.init(clientStore, "M@ster!@#".toCharArray());
 
