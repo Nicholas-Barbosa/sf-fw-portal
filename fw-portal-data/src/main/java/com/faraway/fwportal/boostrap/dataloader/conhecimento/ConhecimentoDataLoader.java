@@ -20,8 +20,8 @@ public interface ConhecimentoDataLoader extends DataLoader<Conhecimento> {
 
 	ConhecimentoDataLoader setEmitenteAndRemetenteAndDestinatario(Entidade... args);
 
-	ConhecimentoBuilder setNotasAndTaxasCollection(Set<Nota> notas, Set<TaxaConhecimento> taxas);
+	ConhecimentoDataLoader setNotasAndTaxasCollection(Set<Nota> notas, Set<TaxaConhecimento> taxas);
 
-	ConhecimentoBuilder setImpostoAndCarga(Imposto imposto, Carga carga);
+	ConhecimentoDataLoader setImpostoAndCarga(Imposto imposto, Carga carga);
 
 }
