@@ -44,7 +44,7 @@ public class DistCteScheduleSefazService implements ScheduleService {
 		log.info("Thread started to read conhecimentos! " + DateTimeFormatter
 				.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).format(TimeHandler.getLocalDateTime()));
 		conhecimentoCrud.findByRemetenteThreeMonths("09512164000172", PageRequest.of(0, 10)).getContent().get(0)
-				.getChave();
+				.getEmitente().getEndereco().getNumero();
 		// distCteService.findAndSave();
 
 	}

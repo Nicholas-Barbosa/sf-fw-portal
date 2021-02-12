@@ -23,14 +23,16 @@ public interface ConhecimentoRepository extends PagingAndSortingRepository<Conhe
 			Pageable page);
 
 //
-	@Query(value = "SELECT conhecimento FROM Conhecimento conhecimento LEFT JOIN conhecimento.cidadeInicio LEFT JOIN conhecimento.cidadeDestino LEFT JOIN conhecimento.emitente emitente"
-			+ " LEFT JOIN emitente.endereco LEFT JOIN conhecimento.remetente remetente LEFT JOIN remetente.endereco"
-			+ " LEFT JOIN conhecimento.destinatario destinatario LEFT JOIN destinatario.endereco"
-			+ " LEFT JOIN conhecimento.taxas taxas LEFT JOIN taxas.taxa "
-			+ "	LEFT JOIN conhecimento.notas notas LEFT JOIN notas.emitente nEmitente"
-			+ "	LEFT JOIN nEmitente.endereco LEFT JOIN notas.destinatario nDest"
-			+ " LEFT JOIN nDest.endereco LEFT JOIN conhecimento.imposto"
-			+ "	LEFT JOIN conhecimento.carga carga LEFT JOIN carga.medidas medidas LEFT JOIN medidas.medida"
+	@Query(value = "SELECT conhecimento FROM Conhecimento conhecimento LEFT JOIN FETCH conhecimento.cidadeInicio LEFT JOIN FETCH conhecimento.cidadeDestino"
+			+ " LEFT JOIN FETCH conhecimento.emitente emitente" + " LEFT JOIN FETCH emitente.endereco emitEndereco"
+			+ " LEFT JOIN FETCH emitEndereco.cidade cEmit"
+			+ " LEFT JOIN FETCH conhecimento.remetente remetente LEFT JOIN FETCH remetente.endereco remEndereco"
+			+ " LEFT JOIN FETCH conhecimento.destinatario destinatario LEFT JOIN FETCH destinatario.endereco destEndereco"
+			+ " LEFT JOIN FETCH conhecimento.taxas taxas LEFT JOIN FETCH taxas.taxa "
+			+ "	LEFT JOIN FETCH conhecimento.notas notas LEFT JOIN FETCH notas.emitente nEmitente"
+			+ "	LEFT JOIN FETCH nEmitente.endereco LEFT JOIN FETCH notas.destinatario nDest"
+			+ " LEFT JOIN FETCH nDest.endereco LEFT JOIN FETCH conhecimento.imposto"
+			+ "	LEFT JOIN FETCH conhecimento.carga carga LEFT JOIN FETCH carga.medidas medidas LEFT JOIN FETCH medidas.medida"
 			+ " WHERE conhecimento.emissao between ?1 and ?2 AND remetente.cnpj = ?3", countQuery = "select count(conhecimento.id)"
 					+ " FROM Conhecimento conhecimento LEFT JOIN conhecimento.remetente remetente WHERE conhecimento.emissao between ?1 and ?2 AND remetente.cnpj =?3")
 	Page<Conhecimento> findByEmissaoBetweenAndRemetenteCnpj(LocalDate dateBegin, LocalDate dateEnd, String cnpj,
