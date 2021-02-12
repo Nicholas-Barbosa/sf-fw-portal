@@ -5,4 +5,5 @@ import com.faraway.fwportal.model.Conhecimento;
 
 public interface ConhecimentoBrokerDataLoader extends BrokerDataLoader<Conhecimento> {
 
+	boolean checkIfCteExists(String key);
 }

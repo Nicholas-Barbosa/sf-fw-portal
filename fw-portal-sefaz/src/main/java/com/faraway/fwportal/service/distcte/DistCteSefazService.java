@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,7 @@ public class DistCteSefazService implements SefazService {
 					.map(callBack -> callBack.getDocumentos()).flatMap(ls -> ls.stream()).collect(Collectors.toSet());
 
 			procDeserializador.deserializaProcs(documentos).parallelStream()
+					.filter(pc -> !conhecimentoBrokerDataLoader.checkIfCteExists(pc.getChave()))
 					.map(procCte -> conhecimentoBrokerDataLoader.brokerLoad(procCte)).collect(Collectors.counting());
 
 			// Predicate<CteProc> predVerificaSeCteEComplementar = cp ->

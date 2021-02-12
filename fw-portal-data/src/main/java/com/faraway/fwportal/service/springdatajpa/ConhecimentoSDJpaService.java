@@ -17,7 +17,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.faraway.fwportal.exception.ObjectNotFoundException;
 import com.faraway.fwportal.model.Conhecimento;
@@ -37,7 +36,7 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 		this.conhecimentoRepository = conhecimentoRepository;
 	}
 
-	private final Map<String, Conhecimento> map = new ConcurrentHashMap<>();
+	private static final Map<String, Conhecimento> map = new ConcurrentHashMap<>();
 
 	@Override
 	public Set<Conhecimento> findAll() {
@@ -77,12 +76,15 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 
 	@Override
 	public synchronized boolean existsKeyOnMap(String key) {
+		log.info("Checking if #" + key + " exists on map...");
+
 		if (map.isEmpty()) {
-			System.out.println("Conhecimento map vazio!");
-			map.putAll(this.findAll().stream().map(Conhecimento::new)
+			log.info("Map is empty.");
+			map.putAll(this.findAll().parallelStream().map(Conhecimento::new)
 					.collect(Collectors.toConcurrentMap(k -> k.getChave(), v -> v)));
 
 		}
+		log.info("#" + key + " checked.");
 		return map.containsKey(key);
 	}
 

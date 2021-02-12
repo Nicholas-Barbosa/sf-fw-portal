@@ -72,4 +72,16 @@ public class ConhecimentoDataLoaderImpl implements ConhecimentoDataLoader {
 		return this;
 	}
 
+	@Override
+	public ConhecimentoCrdService getCurrentCrudServiceInstance() {
+		// TODO Auto-generated method stub
+		return this.conhecimentoCrudService;
+	}
+
+	@Override
+	public Boolean checkIfCteExists(String chave) {
+		// TODO Auto-generated method stub
+		return  conhecimentoCrudService.existsKeyOnMap(chave);
+	}
+
 }
