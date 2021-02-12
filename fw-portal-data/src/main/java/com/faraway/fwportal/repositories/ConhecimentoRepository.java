@@ -23,7 +23,7 @@ public interface ConhecimentoRepository extends PagingAndSortingRepository<Conhe
 			Pageable page);
 
 //
-	@Query(value = "FROM Conhecimento conhecimento LEFT JOIN conhecimento.cidadeInicio LEFT JOIN conhecimento.cidadeDestino LEFT JOIN conhecimento.emitente emitente"
+	@Query(value = "SELECT conhecimento FROM Conhecimento conhecimento LEFT JOIN conhecimento.cidadeInicio LEFT JOIN conhecimento.cidadeDestino LEFT JOIN conhecimento.emitente emitente"
 			+ " LEFT JOIN emitente.endereco LEFT JOIN conhecimento.remetente remetente LEFT JOIN remetente.endereco"
 			+ " LEFT JOIN conhecimento.destinatario destinatario LEFT JOIN destinatario.endereco"
 			+ " LEFT JOIN conhecimento.taxas taxas LEFT JOIN taxas.taxa "

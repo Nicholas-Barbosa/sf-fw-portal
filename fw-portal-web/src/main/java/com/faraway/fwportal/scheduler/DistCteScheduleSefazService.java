@@ -5,10 +5,13 @@ import java.time.format.FormatStyle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.entidade.transportadora.TransportadoraBuilder;
+import com.faraway.fwportal.service.ConhecimentoCrdService;
 import com.faraway.fwportal.service.SefazService;
 import com.faraway.fwportal.time.TimeHandler;
 
@@ -20,6 +23,9 @@ public class DistCteScheduleSefazService implements ScheduleService {
 	private final SefazService distCteService;
 
 	private final TransportadoraBuilder empresaBuilder;
+
+	@Autowired
+	private ConhecimentoCrdService conhecimentoCrud;
 
 	public DistCteScheduleSefazService(SefazService distCteService, TransportadoraBuilder empresaBuilder) {
 		super();
@@ -37,7 +43,9 @@ public class DistCteScheduleSefazService implements ScheduleService {
 	public void executeTask() {
 		log.info("Thread started to read conhecimentos! " + DateTimeFormatter
 				.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).format(TimeHandler.getLocalDateTime()));
-	//	distCteService.findAndSave();
+		conhecimentoCrud.findByRemetenteThreeMonths("09512164000172", PageRequest.of(0, 10)).getContent().get(0)
+				.getChave();
+		// distCteService.findAndSave();
 
 	}
 

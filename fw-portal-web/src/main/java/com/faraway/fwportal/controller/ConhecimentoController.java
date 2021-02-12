@@ -168,8 +168,7 @@ public class ConhecimentoController {
 
 		try {
 			Page<Conhecimento> conhecimentos = conhecimentoCrudService.findByRemetenteThreeMonths(cnpj, currentPage);
-			return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new),
-					conhecimentos.getContent().size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Page<ConhecimentoDto>>(conhecimentos.map(ConhecimentoDto::new), conhecimentos.getContent().size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
 			if (e instanceof PropertyReferenceException)
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
