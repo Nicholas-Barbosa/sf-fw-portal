@@ -8,9 +8,12 @@ import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.dataloader.cidade.CidadeDataLoader;
 import com.faraway.fwportal.boostrap.dataloader.conhecimento.ConhecimentoDataLoader;
+import com.faraway.fwportal.boostrap.dataloader.entidade.transportadora.TransportadoraDataLoader;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.CteProc;
 import com.faraway.fwportal.model.Cidade;
 import com.faraway.fwportal.model.Conhecimento;
+import com.faraway.fwportal.model.Empresa;
+import com.faraway.fwportal.model.Transportadora;
 
 @Component
 public class DistCteBrokerDataLoader implements ConhecimentoBrokerDataLoader {
@@ -19,10 +22,14 @@ public class DistCteBrokerDataLoader implements ConhecimentoBrokerDataLoader {
 
 	private final CidadeDataLoader cidadeDataLoader;
 
-	public DistCteBrokerDataLoader(ConhecimentoDataLoader conhecimentoDataLoader, CidadeDataLoader cidadeDataLoader) {
+	private final TransportadoraDataLoader transportadoraDataLoader;
+
+	public DistCteBrokerDataLoader(ConhecimentoDataLoader conhecimentoDataLoader, CidadeDataLoader cidadeDataLoader,
+			TransportadoraDataLoader transportadoraDataLoader) {
 		super();
 		this.conhecimentoDataLoader = conhecimentoDataLoader;
 		this.cidadeDataLoader = cidadeDataLoader;
+		this.transportadoraDataLoader = transportadoraDataLoader;
 	}
 
 	@Override
@@ -31,15 +38,13 @@ public class DistCteBrokerDataLoader implements ConhecimentoBrokerDataLoader {
 		if (!conhecimentoDataLoader.checkIfCteExists(cteProc.getChave())) {
 			ExecutorService executor = null;
 			try {
-				executor = Executors.newFixedThreadPool(2);
+				executor = Executors.newFixedThreadPool(3);
 				Future<Cidade> cidadeInicioFtr = executor
 						.submit(() -> takeCidade(cteProc.getCidadeInArrayWithNomeAndCodigoAndUf()));
 
 				Future<Cidade> cidadeDestinoFtr = executor
 						.submit(() -> takeCidade(cteProc.getCidadeDestinoInArrayWithNomeAndCodigoAndUf()));
 
-				conhecimentoDataLoader.setCidadeAndCidadeDestino(new Cidade(cidadeInicioFtr.get()),
-						new Cidade(cidadeDestinoFtr.get()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {

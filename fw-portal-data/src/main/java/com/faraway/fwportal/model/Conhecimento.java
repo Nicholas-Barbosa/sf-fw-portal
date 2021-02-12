@@ -42,10 +42,10 @@ public class Conhecimento extends Documento {
 	@JoinTable(joinColumns = @JoinColumn(name = "conhecimento_id"), inverseJoinColumns = @JoinColumn(name = "nota_id"))
 	private Set<Nota> notas;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Imposto imposto;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private Carga carga;
 
 	private String chave;

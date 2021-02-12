@@ -1,4 +1,4 @@
-package com.faraway.fwportal.controller.rest;
+package com.faraway.fwportal.controller;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,11 +21,11 @@ import com.faraway.fwportal.exception.ObjectNotFoundException;
 
 @RestController
 @RequestMapping("/caches/rest")
-public class CacheRestController {
+public class CacheController {
 
 	private CacheManagerService cacheManagerService;
 
-	public CacheRestController(CacheManagerService cacheManagerService) {
+	public CacheController(CacheManagerService cacheManagerService) {
 		super();
 		this.cacheManagerService = cacheManagerService;
 	}

@@ -37,7 +37,7 @@ public class DistCteScheduleSefazService implements ScheduleService {
 	public void executeTask() {
 		log.info("Thread started to read conhecimentos! " + DateTimeFormatter
 				.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).format(TimeHandler.getLocalDateTime()));
-		distCteService.findAndSave();
+	//	distCteService.findAndSave();
 
 	}
 

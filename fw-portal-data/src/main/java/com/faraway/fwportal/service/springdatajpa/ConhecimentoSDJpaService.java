@@ -140,7 +140,7 @@ public class ConhecimentoSDJpaService implements ConhecimentoCrdService {
 	@Override
 	public Page<Conhecimento> findByRemetenteThreeMonths(String cnpj, Pageable page) {
 		LocalDate now = TimeHandler.getLocalDate();
-		LocalDate begin = now.withDayOfMonth(1).minusMonths(3);
+		LocalDate begin = now.withDayOfMonth(1).minusMonths(5);
 		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
 		log.info("Finding conhecimentos by remetente between " + begin.format(formatter) + " - " + now.format(formatter)
 				+ "...");

@@ -50,7 +50,7 @@ public class DistCteSefazService implements SefazService {
 
 	@Override
 	public void findAndSave() {
-		for (Certificado certificado : certificadoCrudService.findAll()) {
+		certificadoCrudService.findAll().forEach(certificado -> {
 			log.info("Getting cte documents for certificate #" + certificado.getCnpj());
 
 			Set<DocumentosZipDto> documentos = find(certificado).parallelStream()
@@ -74,7 +74,7 @@ public class DistCteSefazService implements SefazService {
 			// compareNsusAndUpdateCertificadoEntityObject(certificado);
 			// log.info(ctesLidos + " Conhecimentos objects read for certificate #" +
 			// certificado.getCnpj());
-		}
+		});
 	}
 
 	@Override
