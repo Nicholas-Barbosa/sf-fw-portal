@@ -2,14 +2,13 @@ package com.faraway.fwportal.model.builder;
 
 import com.faraway.fwportal.model.domain.Cidade;
 
-public class CidadeBuilder implements Builder<CidadeBuilder, Cidade> {
+public class CidadeBuilder implements Builder<Cidade> {
 
 	private String nome, uf, codigoIbge;
 
-	@Override
-	public CidadeBuilder builder() {
+	public static CidadeBuilder builder() {
 		// TODO Auto-generated method stub
-		return this;
+		return new CidadeBuilder();
 	}
 
 	@Override

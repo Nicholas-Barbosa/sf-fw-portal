@@ -3,12 +3,11 @@ package com.faraway.fwportal.model.builder;
 import com.faraway.fwportal.model.domain.Cidade;
 import com.faraway.fwportal.model.domain.Endereco;
 
-public class EnderecoBuilder implements Builder<EnderecoBuilder, Endereco> {
+public class EnderecoBuilder implements Builder<Endereco> {
 
 	private String logradouro, numero, cep, bairro, pais;
 	private Cidade cidade;
 
-	@Override
 	public EnderecoBuilder builder() {
 		// TODO Auto-generated method stub
 		return null;
