@@ -24,7 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.faraway.fwportal.dto.ConhecimentoDto;
 import com.faraway.fwportal.exception.ObjectNotFoundException;
 import com.faraway.fwportal.internationalization.ObjRBundle;
-import com.faraway.fwportal.model.Conhecimento;
+import com.faraway.fwportal.model.domain.Conhecimento;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
 
 import io.swagger.annotations.Api;

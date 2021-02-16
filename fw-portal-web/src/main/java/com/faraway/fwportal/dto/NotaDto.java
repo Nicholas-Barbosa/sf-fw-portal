@@ -1,6 +1,6 @@
 package com.faraway.fwportal.dto;
 
-import com.faraway.fwportal.model.Nota;
+import com.faraway.fwportal.model.domain.Nota;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName("nota")

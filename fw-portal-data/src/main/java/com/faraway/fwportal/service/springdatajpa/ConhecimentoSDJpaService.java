@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.faraway.fwportal.exception.ObjectNotFoundException;
-import com.faraway.fwportal.model.Conhecimento;
+import com.faraway.fwportal.model.domain.Conhecimento;
 import com.faraway.fwportal.repositories.ConhecimentoRepository;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
 import com.faraway.fwportal.time.TimeHandler;

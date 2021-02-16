@@ -10,10 +10,10 @@ import com.faraway.fwportal.boostrap.dataloader.cidade.CidadeDataLoader;
 import com.faraway.fwportal.boostrap.dataloader.conhecimento.ConhecimentoDataLoader;
 import com.faraway.fwportal.boostrap.dataloader.entidade.transportadora.TransportadoraDataLoader;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.layout.proccte.CteProc;
-import com.faraway.fwportal.model.Cidade;
-import com.faraway.fwportal.model.Conhecimento;
-import com.faraway.fwportal.model.Empresa;
-import com.faraway.fwportal.model.Transportadora;
+import com.faraway.fwportal.model.domain.Cidade;
+import com.faraway.fwportal.model.domain.Conhecimento;
+import com.faraway.fwportal.model.domain.Empresa;
+import com.faraway.fwportal.model.domain.Transportadora;
 
 @Component
 public class DistCteBrokerDataLoader implements ConhecimentoBrokerDataLoader {

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.model.Cidade;
+import com.faraway.fwportal.model.domain.Cidade;
 import com.faraway.fwportal.repositories.CidadeRepository;
 import com.faraway.fwportal.service.CidadeCrdService;
 

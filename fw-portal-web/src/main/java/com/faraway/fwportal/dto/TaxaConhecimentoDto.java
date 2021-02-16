@@ -2,7 +2,7 @@ package com.faraway.fwportal.dto;
 
 import java.math.BigDecimal;
 
-import com.faraway.fwportal.model.TaxaConhecimento;
+import com.faraway.fwportal.model.domain.TaxaConhecimento;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TaxaConhecimentoDto implements Comparable<TaxaConhecimentoDto> {

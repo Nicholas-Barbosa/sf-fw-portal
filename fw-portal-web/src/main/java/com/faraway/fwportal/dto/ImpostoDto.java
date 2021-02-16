@@ -2,7 +2,7 @@ package com.faraway.fwportal.dto;
 
 import java.math.BigDecimal;
 
-import com.faraway.fwportal.model.Imposto;
+import com.faraway.fwportal.model.domain.Imposto;
 
 public class ImpostoDto {
 

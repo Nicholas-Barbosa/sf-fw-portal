@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 
 import com.faraway.fwportal.exception.ObjectNotFoundException;
-import com.faraway.fwportal.model.Conhecimento;
+import com.faraway.fwportal.model.domain.Conhecimento;
 
 public interface ConhecimentoCrdService extends CrudService<Conhecimento, Long> {
 

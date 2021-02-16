@@ -3,13 +3,13 @@ package com.faraway.fwportal.boostrap.dataloader.conhecimento;
 import java.util.Set;
 
 import com.faraway.fwportal.boostrap.dataloader.DataLoader;
-import com.faraway.fwportal.model.Carga;
-import com.faraway.fwportal.model.Cidade;
-import com.faraway.fwportal.model.Conhecimento;
-import com.faraway.fwportal.model.Entidade;
-import com.faraway.fwportal.model.Imposto;
-import com.faraway.fwportal.model.Nota;
-import com.faraway.fwportal.model.TaxaConhecimento;
+import com.faraway.fwportal.model.domain.Carga;
+import com.faraway.fwportal.model.domain.Cidade;
+import com.faraway.fwportal.model.domain.Conhecimento;
+import com.faraway.fwportal.model.domain.Entidade;
+import com.faraway.fwportal.model.domain.Imposto;
+import com.faraway.fwportal.model.domain.Nota;
+import com.faraway.fwportal.model.domain.TaxaConhecimento;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
 
 public interface ConhecimentoDataLoader extends DataLoader<Conhecimento> {

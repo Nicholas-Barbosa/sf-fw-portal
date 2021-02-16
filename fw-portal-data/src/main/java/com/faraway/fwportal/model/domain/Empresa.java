@@ -1,33 +1,32 @@
-package com.faraway.fwportal.model;
+package com.faraway.fwportal.model.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "transportadoras")
-public class Transportadora extends Entidade {
+@Table(name = "empresas")
+public class Empresa extends Entidade {
 
-	public Transportadora() {
+	public Empresa() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Transportadora(String nome, String cnpj, Endereco endereco, String insEstadual, String fone) {
+	public Empresa(String nome, String cnpj, Endereco endereco, String inscEstadual, String fone) {
 		finalSetNome(nome);
-		finalCnpj(cnpj);
+		finalSetCnpj(cnpj);
 		finalSetEndereco(endereco);
-
-		finalSetInscEstadual(insEstadual);
+		finalSetInscEstadual(inscEstadual);
 		finalSetFone(fone);
 	}
 
-	public Transportadora(Transportadora emitente) {
-		finalSetId(emitente.getId());
-		finalSetNome(emitente.getNome());
-		finalCnpj(emitente.getCnpj());
-		finalSetEndereco(emitente.getEndereco());
-		finalSetInscEstadual(emitente.getInscEstadual());
+	public Empresa(Empresa empresa) {
+		finalSetId(empresa.getId());
+		finalSetNome(empresa.getNome());
+		finalSetCnpj(empresa.getCnpj());
+		finalSetEndereco(empresa.getEndereco());
+		finalSetInscEstadual(empresa.getInscEstadual());
 
-		finalSetFone(emitente.getFone());
+		finalSetFone(empresa.getFone());
 	}
 
 	private final void finalSetId(Long id) {
@@ -38,7 +37,7 @@ public class Transportadora extends Entidade {
 		super.setNome(nome);
 	}
 
-	private final void finalCnpj(String cnpj) {
+	private final void finalSetCnpj(String cnpj) {
 		super.setCnpj(cnpj);
 	}
 
@@ -53,4 +52,5 @@ public class Transportadora extends Entidade {
 	private final void finalSetFone(String fone) {
 		super.setFone(fone);
 	}
+
 }

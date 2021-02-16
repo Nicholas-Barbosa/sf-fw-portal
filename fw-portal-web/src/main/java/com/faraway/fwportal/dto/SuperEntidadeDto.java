@@ -1,6 +1,6 @@
 package com.faraway.fwportal.dto;
 
-import com.faraway.fwportal.model.Endereco;
+import com.faraway.fwportal.model.domain.Endereco;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;

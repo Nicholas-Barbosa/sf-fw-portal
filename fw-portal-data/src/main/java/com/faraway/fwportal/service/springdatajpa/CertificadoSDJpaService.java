@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.model.Certificado;
+import com.faraway.fwportal.model.domain.Certificado;
 import com.faraway.fwportal.repositories.CertificadoRepository;
 import com.faraway.fwportal.service.CertificadoCrdService;
 

@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.taxa.TaxaBuilder;
-import com.faraway.fwportal.model.Taxa;
-import com.faraway.fwportal.model.TaxaConhecimento;
+import com.faraway.fwportal.model.domain.Taxa;
+import com.faraway.fwportal.model.domain.TaxaConhecimento;
 @Component
 public class TaxaConhecimentoImpl implements TaxaConhecimentoBuilder {
 

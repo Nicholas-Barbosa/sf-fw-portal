@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.model.Empresa;
+import com.faraway.fwportal.model.domain.Empresa;
 import com.faraway.fwportal.repositories.EmpresaRepository;
 import com.faraway.fwportal.service.EmpresaCrdService;
 

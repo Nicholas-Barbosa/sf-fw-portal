@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.model.Taxa;
+import com.faraway.fwportal.model.domain.Taxa;
 import com.faraway.fwportal.repositories.TaxaRepository;
 import com.faraway.fwportal.service.TaxaCrdService;
 

@@ -1,6 +1,6 @@
 package com.faraway.fwportal.dto;
 
-import com.faraway.fwportal.model.Transportadora;
+import com.faraway.fwportal.model.domain.Transportadora;
 
 public class TransportadoraDto extends SuperEntidadeDto {
 

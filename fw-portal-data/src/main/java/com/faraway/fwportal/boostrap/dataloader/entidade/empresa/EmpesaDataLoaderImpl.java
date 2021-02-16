@@ -3,8 +3,8 @@ package com.faraway.fwportal.boostrap.dataloader.entidade.empresa;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.entidade.empresa.EmpresaBuilder;
-import com.faraway.fwportal.model.Empresa;
-import com.faraway.fwportal.model.Endereco;
+import com.faraway.fwportal.model.domain.Empresa;
+import com.faraway.fwportal.model.domain.Endereco;
 import com.faraway.fwportal.service.EmpresaCrdService;
 
 @Component

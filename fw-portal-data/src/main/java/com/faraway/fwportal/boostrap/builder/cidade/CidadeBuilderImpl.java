@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.faraway.fwportal.model.Cidade;
+import com.faraway.fwportal.model.domain.Cidade;
 
 @Component
 public class CidadeBuilderImpl implements CidadeBuilder {

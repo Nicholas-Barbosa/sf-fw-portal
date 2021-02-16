@@ -1,6 +1,6 @@
 package com.faraway.fwportal.boostrap.builder.entidade;
 
-import com.faraway.fwportal.model.Endereco;
+import com.faraway.fwportal.model.domain.Endereco;
 
 public interface EntidadeBuilder<T> {
 

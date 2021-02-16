@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import com.faraway.fwportal.model.Carga;
+import com.faraway.fwportal.model.domain.Carga;
 
 public class CargaDto {
 

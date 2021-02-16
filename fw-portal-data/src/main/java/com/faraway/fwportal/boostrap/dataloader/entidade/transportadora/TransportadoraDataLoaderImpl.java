@@ -3,8 +3,8 @@ package com.faraway.fwportal.boostrap.dataloader.entidade.transportadora;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.entidade.transportadora.TransportadoraBuilder;
-import com.faraway.fwportal.model.Endereco;
-import com.faraway.fwportal.model.Transportadora;
+import com.faraway.fwportal.model.domain.Endereco;
+import com.faraway.fwportal.model.domain.Transportadora;
 import com.faraway.fwportal.service.TransportadoraCrdService;
 
 @Component

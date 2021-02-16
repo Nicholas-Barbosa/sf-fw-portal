@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.endereco.EnderecoBuilder;
-import com.faraway.fwportal.model.Empresa;
-import com.faraway.fwportal.model.Endereco;
+import com.faraway.fwportal.model.domain.Empresa;
+import com.faraway.fwportal.model.domain.Endereco;
 
 @Component
 public class EmpesaBuilderImpl implements EmpresaBuilder {

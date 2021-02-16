@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.model.Carga;
+import com.faraway.fwportal.model.domain.Carga;
 import com.faraway.fwportal.repositories.CargaRepository;
 import com.faraway.fwportal.service.CargaCrdService;
 

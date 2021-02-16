@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.CteDistDfeResponse;
 import com.faraway.fwportal.dto.sefaz.distcte.request.DistNsu;
 import com.faraway.fwportal.dto.sefaz.distcte.request.RequestCte;
-import com.faraway.fwportal.model.Certificado;
+import com.faraway.fwportal.model.domain.Certificado;
 import com.faraway.fwportal.service.ClientSefazService;
 
 @Service

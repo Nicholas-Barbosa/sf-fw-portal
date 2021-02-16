@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.faraway.fwportal.boostrap.dataloader.DataLoader;
-import com.faraway.fwportal.model.Empresa;
-import com.faraway.fwportal.model.Nota;
+import com.faraway.fwportal.model.domain.Empresa;
+import com.faraway.fwportal.model.domain.Nota;
 
 public interface NotaDataLoader extends DataLoader<Nota> {
 

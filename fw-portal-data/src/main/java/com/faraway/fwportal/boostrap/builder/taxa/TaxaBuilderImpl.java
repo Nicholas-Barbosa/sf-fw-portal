@@ -2,7 +2,7 @@ package com.faraway.fwportal.boostrap.builder.taxa;
 
 import org.springframework.stereotype.Component;
 
-import com.faraway.fwportal.model.Taxa;
+import com.faraway.fwportal.model.domain.Taxa;
 
 @Component
 public class TaxaBuilderImpl implements TaxaBuilder {

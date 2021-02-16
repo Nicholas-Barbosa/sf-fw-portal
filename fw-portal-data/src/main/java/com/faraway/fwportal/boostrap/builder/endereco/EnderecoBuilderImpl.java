@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.cidade.CidadeBuilder;
-import com.faraway.fwportal.model.Cidade;
-import com.faraway.fwportal.model.Endereco;
+import com.faraway.fwportal.model.domain.Cidade;
+import com.faraway.fwportal.model.domain.Endereco;
 
 @Component
 public class EnderecoBuilderImpl implements EnderecoBuilder {

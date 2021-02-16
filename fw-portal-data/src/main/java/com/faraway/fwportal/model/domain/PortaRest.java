@@ -1,4 +1,4 @@
-package com.faraway.fwportal.model;
+package com.faraway.fwportal.model.domain;
 
 public enum PortaRest {
 

@@ -5,8 +5,8 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
-import com.faraway.fwportal.model.Empresa;
-import com.faraway.fwportal.model.Nota;
+import com.faraway.fwportal.model.domain.Empresa;
+import com.faraway.fwportal.model.domain.Nota;
 
 @Component
 public class NotaBuilderImpl implements NotaBuilder {

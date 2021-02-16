@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.model.TipoMedida;
+import com.faraway.fwportal.model.domain.TipoMedida;
 import com.faraway.fwportal.repositories.TipoMedidaRepository;
 import com.faraway.fwportal.service.TipoMedidaCrdService;
 

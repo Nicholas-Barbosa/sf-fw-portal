@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.model.Nota;
+import com.faraway.fwportal.model.domain.Nota;
 import com.faraway.fwportal.repositories.NotaRepository;
 import com.faraway.fwportal.service.NotaCrdService;
 

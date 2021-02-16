@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.faraway.fwportal.brokerdataloader.conhecimento.ConhecimentoBrokerDataLoader;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.CteDistDfeResponse;
 import com.faraway.fwportal.dto.sefaz.distcte.callback.DocumentosZipDto;
-import com.faraway.fwportal.model.Certificado;
+import com.faraway.fwportal.model.domain.Certificado;
 import com.faraway.fwportal.service.CertificadoCrdService;
 import com.faraway.fwportal.service.ClientSefazService;
 import com.faraway.fwportal.service.SefazService;

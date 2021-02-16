@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.endereco.EnderecoBuilder;
-import com.faraway.fwportal.model.Endereco;
-import com.faraway.fwportal.model.Transportadora;
+import com.faraway.fwportal.model.domain.Endereco;
+import com.faraway.fwportal.model.domain.Transportadora;
 
 @Component
 public class TransportadoraBuilderImpl implements TransportadoraBuilder {

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.faraway.fwportal.model.Transportadora;
+import com.faraway.fwportal.model.domain.Transportadora;
 import com.faraway.fwportal.repositories.TransportadoraRepository;
 import com.faraway.fwportal.service.TransportadoraCrdService;
 

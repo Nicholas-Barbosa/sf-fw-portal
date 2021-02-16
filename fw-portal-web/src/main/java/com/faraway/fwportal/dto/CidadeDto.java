@@ -1,6 +1,6 @@
 package com.faraway.fwportal.dto;
 
-import com.faraway.fwportal.model.Cidade;
+import com.faraway.fwportal.model.domain.Cidade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CidadeDto {

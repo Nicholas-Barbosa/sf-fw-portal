@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.faraway.fwportal.model.Conhecimento;
+import com.faraway.fwportal.model.domain.Conhecimento;
 
 public interface ConhecimentoRepository extends PagingAndSortingRepository<Conhecimento, Long> {
 

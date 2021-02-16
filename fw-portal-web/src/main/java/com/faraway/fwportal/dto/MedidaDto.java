@@ -1,6 +1,6 @@
 package com.faraway.fwportal.dto;
 
-import com.faraway.fwportal.model.Medida;
+import com.faraway.fwportal.model.domain.Medida;
 
 public class MedidaDto implements Comparable<MedidaDto> {
 

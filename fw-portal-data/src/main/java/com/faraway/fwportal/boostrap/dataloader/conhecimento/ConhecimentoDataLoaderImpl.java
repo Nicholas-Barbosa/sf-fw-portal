@@ -8,15 +8,15 @@ import java.util.Set;
 import org.springframework.stereotype.Component;
 
 import com.faraway.fwportal.boostrap.builder.conhecimento.ConhecimentoBuilder;
-import com.faraway.fwportal.model.Carga;
-import com.faraway.fwportal.model.Cidade;
-import com.faraway.fwportal.model.Conhecimento;
-import com.faraway.fwportal.model.Empresa;
-import com.faraway.fwportal.model.Entidade;
-import com.faraway.fwportal.model.Imposto;
-import com.faraway.fwportal.model.Nota;
-import com.faraway.fwportal.model.TaxaConhecimento;
-import com.faraway.fwportal.model.Transportadora;
+import com.faraway.fwportal.model.domain.Carga;
+import com.faraway.fwportal.model.domain.Cidade;
+import com.faraway.fwportal.model.domain.Conhecimento;
+import com.faraway.fwportal.model.domain.Empresa;
+import com.faraway.fwportal.model.domain.Entidade;
+import com.faraway.fwportal.model.domain.Imposto;
+import com.faraway.fwportal.model.domain.Nota;
+import com.faraway.fwportal.model.domain.TaxaConhecimento;
+import com.faraway.fwportal.model.domain.Transportadora;
 import com.faraway.fwportal.service.ConhecimentoCrdService;
 
 @Component

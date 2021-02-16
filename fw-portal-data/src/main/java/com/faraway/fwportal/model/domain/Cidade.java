@@ -1,4 +1,4 @@
-package com.faraway.fwportal.model;
+package com.faraway.fwportal.model.domain;
 
 import java.util.HashSet;
 import java.util.Set;

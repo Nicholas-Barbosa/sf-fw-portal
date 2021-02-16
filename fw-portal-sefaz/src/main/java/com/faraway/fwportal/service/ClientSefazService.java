@@ -1,6 +1,6 @@
 package com.faraway.fwportal.service;
 
-import com.faraway.fwportal.model.Certificado;
+import com.faraway.fwportal.model.domain.Certificado;
 
 public interface ClientSefazService {
 

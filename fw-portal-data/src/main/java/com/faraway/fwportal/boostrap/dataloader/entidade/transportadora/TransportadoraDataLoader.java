@@ -2,7 +2,7 @@ package com.faraway.fwportal.boostrap.dataloader.entidade.transportadora;
 
 import com.faraway.fwportal.boostrap.builder.entidade.EntidadeBuilder;
 import com.faraway.fwportal.boostrap.dataloader.DataLoader;
-import com.faraway.fwportal.model.Transportadora;
+import com.faraway.fwportal.model.domain.Transportadora;
 
 public interface TransportadoraDataLoader
 		extends DataLoader<Transportadora>, EntidadeBuilder<TransportadoraDataLoader> {
