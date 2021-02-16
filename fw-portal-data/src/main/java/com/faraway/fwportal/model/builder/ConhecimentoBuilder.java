@@ -5,10 +5,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.faraway.fwportal.model.domain.Carga;
 import com.faraway.fwportal.model.domain.Cidade;
 import com.faraway.fwportal.model.domain.Conhecimento;
@@ -39,7 +35,8 @@ public class ConhecimentoBuilder implements Builder<Conhecimento> {
 	@Override
 	public Conhecimento build() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Conhecimento(numero, serie, emissao, total, cidadeInicio, cidadeDestino, emitente, remetente,
+				destinatario, notas, imposto, carga, chave, taxas);
 	}
 
 	public ConhecimentoBuilder setNumero(String numero) {
